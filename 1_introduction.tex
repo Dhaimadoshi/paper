@@ -1,0 +1,58 @@
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+\chapter{Introduction and motivation}
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+	\begin{itemize}
+		\item debugger for autumn
+		\item not a debugger a proprement parler
+		\item it actually is more like a code anylizer but for the rest of this paper we will refer to it as a ``debugging tool''
+		\item autumn is a parser library
+		\item what is special about autumn ?
+		\item Ok autumn is cool, but have no debugger
+		\item debugger are important why ?
+		\item ok lets read about it
+	\end{itemize}
+
+	\begin{itemize}
+		\item language tools = pretty cool
+		\item programmers are building domain-specific languages
+		\item many mainstream programming and markup language possess context-sensitive features. 
+		\item however few solution exists for true context-sensitive parsing
+		\item Autumn is a context sensitive parser combinator developped in Kotlin.
+		\item particularity : it can deal with context sensitive grammars.
+		\item debuggers = important tool = expose the underlying execution and helps detect issues and correct them
+		\item traditional debuggers =  generic mechanisms to explore and exhibit the execution stack and system state
+		\item grammar developpement and parsing developper = domain-specific reasoning
+		\item creates gap between the debugging needs and the debugging support.
+		\item Writting and debugging grammar is tricky business. 
+		\item Errors throwed while executing grammar are rarely useful for debuging.
+		\item we don't know if the error comes from the grammar or the input.
+		\item we propose a code inspection tool to help expose those higher level concepts 
+		\item code inspection tool and intellij IDE plugin designed to work with Autumn Grammars.
+		\item provide the user with relevant information he can easily reason with to track and identify potential issues in a much easier way.
+		\item to convince ourselves, lets have a look at an example. (example showing unhelpful error message and highlighting what kind of information would be more relevant)
+	\end{itemize}
+
+		The goal is to simplify the life of the developper when writting grammars.
+	Just as developers use IDEs (integrated development environments) to dramatically improve their productivity, programmers need a sophisticated development environment for building, understanding, and debugging grammars. 
+
+	\begin{comment}
+
+		Current grammar formalisms struggle to express context-sensitive features. Most solutions lack context transparency: they make grammars hard to write, maintain and compose by hardwiring context through the entire grammar. Instead, we approach context-sensitive parsing through the idea that parsers may recall previously matched input (or data derived therefrom) in order to make parsing decisions. We make use of mutable parse state to enable this form of recall.
+
+		Writting and debugging grammar is tricky business. Errors throwed while executing grammar are rarely useful for debuging. The log doesnt tell us if the error comes from the grammar or the input. The dump file is really not managable. So the approach is to simply the life of the use by writting a debugger. 
+
+		Debuggers are comprehension tools. They are often used by developers to under- stand the run-time behavior of software and elicit run-time information [18,19]. In test-driven development the debugger is used as a development tool given that it provides direct access to the running system [20]. Despite their importance, most debuggers only provide low-level operations that do not capture user intent and standard user interfaces that only display generic information. These issues can be addressed if developers are able to create domain-specific debuggers adapted to their problems and domains. Domain- specific debuggers can provide features at a higher level of abstraction that (i) match the domain model of software applications and (ii) group contextual information from various sources.
+
+		In this section we establish and motivate four requirements that an infrastruc- ture for developing domain-specific debuggers should support, namely: domain- specific user interfaces, domain-specific debugging operations, automatic discov- ery and dynamic switching\cite{moldable}.
+
+
+	\end{comment}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%	
+
+
+
+	 %The Dump file is really not managable. 

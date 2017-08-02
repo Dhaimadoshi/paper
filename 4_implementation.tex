@@ -1,0 +1,145 @@
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+\chapter{Implementation}
+
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+	\section{Debuggin tool}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+		\subsection{New implementation for the parsers}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+\begin{itemize}
+	\item autumn parsers were first implemented as boolean functions
+	\item it was difficult to create a debugger for this implementation
+	\item parsers are now objects that inherit from a ``parser'' super class
+	\item each parser object wrap around the parser function
+	\item this implementation was called ``naive'' because performance issues due to megamorphic call sites were expected with the creation of so many objects.
+	\item benchmark revealed that the performance difference was neglectable.
+\end{itemize}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+		\subsection{New grammar and model Compiler}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+\begin{itemize}
+	\item because of the new implementation of the parsers, a new grammar needed to be written
+	\item writting grammar is time consuming and prone to error business
+	\item also because we expected performances issues with the new implementation of parsers, we wanted to compare both implementation
+	\item to make sure that both implementation was comprehensive and correct, a single model of the grammar as beed created
+	\item this model has been feeded to two compilers
+	\item the first regenerated the same grammar using the parser functions
+	\item the other generated a new grammar using the parser objects.
+	\item the validation section will discuss the results of the benchmark.
+	\item note : this structure model/compiler allow us to change the implementation of some/all the parsers without the need to modify or rewrite the grammar from scratch which would be very tedious.
+\end{itemize}
+
+\begin{itemize}
+	\item schemas qui explique la structure model/grammar.
+\end{itemize}
+
+% Since we had to modify the implementation of the parsers to change them from boolean functions to objects, we needed to rewritte java grammar. This is a tedious and difficult task to engage with. Symetrically to what was discussed earlier, When errors arise, it is difficult to determine if they are the results of mistakes in the grammar or in the implementation of the parsers. Therefore, we wrote a model representing java grammar on top of which we could write a compiler to regenerate the grammar using different implementation of the parsers. This allowed us to work on the parsers knowing that the grammar was correct.
+
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+		\subsection{Syntax Tree generation}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+\begin{itemize}
+	\item autumn doesnt build a syntax tree, instead it builds an AST
+	\item the AST abstract some of the nodes together to reduce the general size of the tree
+	\item for debuging purposes, it is needed to have a direct mapping between the nodes of the tree and the rules of the grammar.
+	\item the syntax tree is build by the debuging logic, separately from autumn AST
+	\item if we do not debug, the ST is not built
+	\item It has been made that way because I wanted to isolate the implementation of the debugger from the implementation fo autumn
+	\item For debugging purposes, backtracking nodes are kept within the tree as well
+	\item Backtracking nodes are of course marked as backtracked
+\end{itemize}
+
+The implementation of the syntax tree is contain in the STNode class. It is the structure that holds all the informations needed to debug the grammar.
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+		\subsection{Debug Nodes}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+\begin{itemize}
+	\item Debugger logic is hooked on the parsers invocation
+	\item at each invocation the debugger create a node with information about the state of the parse as well as the position in the input.
+	\item There is therefore a node per parser that form the syntax tree
+	\item the state is not copied in each node of course
+	\item the state works as a log with each entry the modification made to the parse state
+	\item each entry can be undone and redone at will
+	\item each node remember the size of the log at the invocation of the corresponding parser
+	\item the state can therefore be regenerated for analyze purposes
+\end{itemize}
+
+The debug logic is contained in the debugNode class. Any number of additional functionality can be added by creating new hooks to the implementation of the debug function
+%
+		\subsection{Syntax tree nodes}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+\begin{itemize}
+	\item Each nodes of the syntax tree is created by the debugger at the invocation of the parsers
+	\item each nodes knows information about the parser it is linked to
+	\item its type
+	\item if it is the definition of a rule
+	\item the position in the input
+	\item the size of the state log to be able to regenerate the state
+	\item the nodes works as a linked list. it has a reference to its parent and children.
+\end{itemize}
+
+
+% Usually in grammar parsing, the framework usually generate a syntax tree and let the user generate an AST derived from it. One of Autumn's specificity was that it didnt produce a Syntax tree and directly produced a AST. The problem with this approach on the debugger side is that we want to be able to see exactly which rule matched with the input and to do se we need the nodes from the tree to be in a direct mapping with the rules of the grammar.
+
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\section{Plugin Implementation}
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	Intellij IDE's interace uses java SWING. Considering that the entire project has been code in Kotlin, we were reluctant to use this out of style implementation of GUI. Because we needed to our implementation to interoperate with the SWING components of the IDE, we considered javaFX\cite{oracle_javafx} which is an evolution of SWING by Oracle, but like its predecessor it's written in java and still very verbose. In the end, we were seduced by the tornadoFX\cite{tornadoFX} framework, coded in kotlin, it is build on top of of javaFX, assuring seamless interoperability with SWING as well as providing the powerful syntax of Kotlin.
+
+		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+		\subsubsection{TornadoFX framework - reasons why we used tornadofx}
+		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+		Present the strenght of tornadoFX vs standard SWING. Highlight the fact that it is written in kotlin and therefore can harness the strenght of the language and at the same time, since its based on javaFX it guaranteed its interoperability with SWING and therefore blend seemlessly with the IDE.
+
+		Present some example of how it can dramatically reduce the effort needed to build up a GUI compared to SWING.
+		% User interfaces are becoming increasingly critical to the success of consumer and business applications. With the rise of consumer mobile apps and web applications, business users are increasingly holding enterprise applications to a higher standard of quality. They want rich, feature-packed user interfaces that provide immediate insight and navigate complex screens intuitively. More importantly, they want the application to adapt quickly to business changes on a frequent basis. For the developer, this means the application must not only be maintainable but also evolvable. TornadoFX seeks to assist all these objectives and greatly streamline the coding of JavaFX UI's.
+		% While much of the enterprise IT world is pushing HTML5 and cloud-based applications, many businesses are still using desktop UI frameworks like JavaFX. While it does not distribute to large audiences as easily as web applications, JavaFX works well for "in-house" business applications. Its high-performance with large datasets (and the fact it is native Java) make it a practical choice for applications used behind the corporate firewall.
+		% JavaFX, like many UI frameworks, can quickly become verbose and difficult to maintain. Fortunately, the release of Kotlin has created an opportunity to rethink how JavaFX applications are built.
+
+		% In February 2016, JetBrains released Kotlin, a new JVM language that emphasizes pragmatism over convention. Kotlin works at a higher level of abstraction and provides practical language features not available in Java. One of the more important features of Kotlin is its 100% interoperability with existing Java libraries and codebases, including JavaFX.
+		% While JavaFX can be used with Kotlin in the same manner as Java, some believed Kotlin had language features that could streamline and simplify JavaFX development. Well before Kotlin's beta, Eugen Kiss prototyped JavaFX "builders" with KotlinFX. In January 2016, Edvin Syse rebooted the initiative and released TornadoFX.
+		% TornadoFX seeks to greatly minimize the amount of code needed to build JavaFX applications. It not only includes type-safe builders to quickly lay out controls and user interfaces, but also features dependency injection, delegated properties, control extension functions, and other practical features enabled by Kotlin. TornadoFX is a fine showcase of how Kotlin can simplify codebases, and it tackles the verbosity of UI code with elegance and simplicity. It can work in conjunction with other popular JavaFX libraries such as ControlsFX and JFXtras. It works especially well with reactive frameworks such as ReactFX as well as RxJava and friends (including RxJavaFX, RxKotlin, and RxKotlinFX).
+
+		% Motivational example in the intro guide
+
+		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+		\subsection{Event Handler - Message passing}
+		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+		implementation details of the GUI that are maybe not so relevant as we discussed ... I suppose Im gonna remove this section.
+
+
+
+% \paragraph{side note}
+% An interesting product that is in development is JPro, a web-based JavaFX container that uses no plugins. It can work with TornadoFX and JavaFX, but is still in closed beta at the time of writing. You can follow the project and wait for its availability here: https://jpro.io/
+
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Limitations}
+
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+		\subsection{execution thread}
+		\begin{itemize}
+			\item intellij doesnt allow certain instructions to be called from another thread than the one expects.
+			\item tornadoFX works in its own thread, so some functionallity are not possible as it is
+		\end{itemize}

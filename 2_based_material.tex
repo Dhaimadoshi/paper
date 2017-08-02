@@ -1,0 +1,189 @@
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+\chapter{Based Material}
+%%%%----%
+		%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+		%
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+	\section{Parsing expression grammar} 
+	%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+	%
+	%
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+
+\begin{itemize}
+	\item PEG = type of analytic formal grammar closely related to the family of top-down parsing languages
+	\item similar to context-free grammars (CFGs) but PEGs cannot be ambiguous; if a string parses, it has exactly one valid parse tree.
+	\item Formally, a parsing expression grammar consists of: A finite set N of nonterminal symbols. A finite set $\sum$ of terminal symbols that is disjoint from N. A finite set P of parsing rules. An expression eS termed the starting expression.
+	\item Each parsing rule in P has the form A $<-$ e, where A is a nonterminal symbol and e is a parsing expression. A parsing expression is a hierarchical expression similar to a regular expression, which is constructed in the following fashion:  
+	\begin{itemize}
+		\item An atomic parsing expression consists of: any terminal symbol, any nonterminal symbol, or the empty string.
+		\item Given any existing parsing expressions e, e1, and e2, a new parsing expression can be constructed using the following operators: Sequence Ordered choice Zero-or-more One-or-more Optional And-predicate Not-predicate
+	\end{itemize}
+	\item desirable properties: closure under composition, built-in disambiguation, unifica- tion of syntactic and lexical concerns, and closely matching programmer intuition.
+	\item struggle with left-recursive grammar rules : infinite recursion
+	\item  These include parser generators (like the venerable Yacc) and more recently parser combinator libraries [5].
+\end{itemize}
+
+\begin{comment}
+	\item Most of the work on parsing has been built on top of Chomsky’s context-free grammars (CFGs). 
+	\item Ford’s parsing expression grammars (PEGs) [3] are an alternative formal- ism exhibiting interesting properties. Whereas CFGs use non-deterministic choice between alternative constructs, PEGs use prioritized choice. This makes PEGs unambiguous by construction.
+	\item CFGs are generative: they describe a language, and the grammar itself can be used to enumerate the set of sen- tences belonging to that language. PEGs on the other hand are recognition-based: they describe a predicate indicating whether a sentence belongs to a language.
+	\item The recognition-based approach is a boon for program- mers who have to find mistakes in a grammar. It also en- ables us to add new parsing operators, as we will see in sec- tion 4. These benefits are due to two PEG characteristics. (1) The parser implementing a PEG is generally close to the grammar, making reasoning about the parser’s operations easier. This characteristic is shared with recursive-descent CFG parsers. (2)
+	\item The single parse rule: attempting to match a parsing expression (i.e. a sub-PEG) at a given input posi- tion will always yield the same result (success or failure) and consume the same amount of input. This is not the case for CFGs. For example, with a PEG, the expression (a*) will al- ways greedily consume all the a’s available, whereas a CFG could consume any number of them, depending on the gram- mar symbols that follow.
+	\item First is the problem of left-recursion, an issue which PEGs share with recursive- descent CFG parsers. This is sometimes singled out as a rea- son why PEGs are frustrating to use [11].
+	\item Solutions that do support left-recursion do not always let the user choose the associativity of the parse tree for rules that are both left- and right-recursive; either because of technical limitations [1] or by conscious design [10]. We contend that users should be able to freely choose the associativity they desire.
+	\item Whitespace handling is another problem. Traditionally, PEG parsers do away with the distinction between lexing and parsing. This alleviates some issues with traditional lexing: different parts of the input can now use different lex- ing schemes, and structure is possible at the lexical level (e.g. nested comments) [3].
+	\item However, it means that whites- pace handling might now pollute the grammar as well as the generated syntax tree. Finally, while PEGs make linear- time parsing possible with full memoization1, there is a fine balance to be struck between backtracking and memoiza- tion [2]. Memoization can bring about runtime speedups at the cost of memory use. Sometimes however, the run time overhead of memoization nullifies any gains it might bring.
+	\item  Error reporting tends to be poor, and is not able to ex- ploit knowledge held by users about the structure of their grammars. Syntax trees often consist of either a full parse tree that closely follows the structure of the grammar, or data structures built on the fly by user-supplied code (seman- tic actions). Both approaches are flawed: a full parse tree is too noisy as it captures syntactic elements with no seman- tic meaning, while tangling grammatical constructs and se- mantic actions (i.e. code) produces bloated and hard-to-read grammars. Generating trees from declarative grammar anno- tations is possible, but infrequent.
+	\item recognition-based formal foundation for describing machine- oriented syntax
+	\item Where CFGs express nondeter- ministic choice between alternatives, PEGs instead use prioritized choice
+	\item A linear-time parser can be built for any PEG, avoiding both the com- plexity and fickleness of LR parsers and the inefficiency of gener- alized CFG parsing. While PEGs provide a rich set of operators for constructing grammars, they are reducible to two minimal recogni- tion schemas developed around 1970, TS/TDPL and gTS/GTDPL, which are here proven equivalent in effective recognition power.
+	\item Most language syntax theory and practice is based on generative systems, such as regular expressions and context-free grammars, in which a language is defined formally by a set of rules applied re- cursively to generate strings of the language. A recognition-based system, in contrast, defines a language in terms of rules or predi- cates that decide whether or not a given string is in the language.
+	\item Simple languages can be expressed easily in either paradigm. For example, ${s ∈ a\* | s = (aa)^n}$ is a generative definition of a trivial language over a unary character set, whose strings are “constructed” by concatenating pairs of a’s. In contrast, ${s ∈ a\* | (|s| mod 2 = 0)}$ is a recognition-based definition of the same language, in which a string of a’s is “accepted” if its length is even.
+	\item Chomsky’s generative system of grammars, from which the ubiqui- tous context-free grammars (CFGs) and regular expressions (REs) arise, was originally designed as a formal tool for modelling and analyzing natural (human) languages. Due to their elegance and expressive power, computer scientists adopted generative grammars for describing machine-oriented languages as well. The ability of a CFG to express ambiguous syntax is an important and powerful tool for natural languages. Unfortunately, this power gets in the way when we use CFGs for machine-oriented languages that are intended to be precise and unambiguous. Ambiguity in CFGs is difficult to avoid even when we want to, and it makes general CFG parsing an inherently super-linear-time problem [14, 23].
+	\item A PEG may be viewed as a formal description of a top-down parser. Two closely related prior systems upon which this work is based were developed primarily for the purpose of studying top-down parsers [4, 5].
+	\item PEGs have far more syntactic expressiveness than the LL(k) language class typically associated with top-down parsers, however, and can express all deterministic LR(k) languages and many others, including some non-context-free languages. Despite their considerable expressive power, all PEGs can be parsed in lin- ear time using a tabular or memoizing parser [8].
+	\item he recognition-oriented nature of PEGs creates a natural affinity in terms of syntactic expressiveness and parsing efficiency.
+\end{comment}
+
+The fundamental difference between context-free grammars and parsing expression grammars is that the PEG's choice operator is ordered.
+
+\begin{itemize}
+	\item DSLs are generally very high-level languages tailored to specific tasks.
+	\item DSLs are particularly important to software development because they represent a more natural, high-fidelity, robust, and maintainable means of encoding a problem than simply writing software in a general- purpose language.
+\end{itemize}
+
+
+\paragraph{Parsing} Imagine a maze with a single entrance and single exit that has words written on the floor. Every path from entrance to exit generates a sentence by “saying” the words in sequence. In a sense, the maze is analogous to a grammar that defines a language.
+
+You can also think of a maze as a sentence recognizer. Given a sentence, you can match its words in sequence with the words along the floor. Any sentence that successfully guides you to the exit is a valid sentence in the language defined by the maze. 
+
+At almost every word, the recog- nizer must make a decision about the interpretation of a phrase or subphrase. Sometimes these decisions are very complicated. For example, some decisions require information about previous decision choices or even future choices. Most of the time, however, decisions need just a little bit of lookahead information.
+
+\paragraph{Grammar} To understand grammars and to understand their capabilities and limitations, you need to learn about the nature of computer languages.
+
+Represent grammar as a state machine; states and transitions labeled with vocabulary symbols. The transitions are directed connections that govern navigation among the states. Machine execution begins in state s0, the start state, and stops in s4, the accept state.
+
+The machine can also generate invalid sentences, such as “Your truck is sad and sad.” Grammatical does not imply sensible. For example, “Dogs revert vacuum bags” is grammatically OK but doesn’t make any sense. 
+The difference between the regular and context-free languages is the differ- ence between a state machine and the more sophisticated machines in the next section. The essential weakness of a state machine is that it has no memory of what it generated in the past. 
+Trees Such trees are called derivation trees when generating sentences and parse trees when recognizing sen- tences.
+It turns out that the humble stack is the perfect memory structure to solve both word dependency and order problems.4 Adding a stack to a state machine turns it into a pushdown machine. A state machine is analogous to a stream of instructions trapped within a single method, unable to make method calls. A pushdown machine, on the other hand, is free to invoke other parts of the machine and return just like a method call. The stack allows you to partition a machine into submachines. These submachines map directly to the rules in a grammar.
+
+\paragraph{Ambiguousity}
+
+
+As we all know, English and other natural languages can be delight- fully ambiguous. Any language with an ambiguous sentence is consid- ered ambiguous, and any sentence with more than a single meaning is ambiguous. Sentences are ambiguous if at least one of its phrases is ambiguous. Here is an ambiguous faux newspaper headline: “Bush appeals to democrats.” In this case, the verb appeals has two mean- ings: “is attractive to” and “requests help from.” This is analogous to operator overloading in computer languages, which makes programs hard to understand just like overloaded words do in English.
+
+For example, a syntax diagram for C can generate statement i*j; following the path for both a multiplicative expression and a variable definition (in other words, j is a pointer to type i). To learn more about the relationship of ambiguous languages to ANTLR grammars,
+
+Complex language generation enforces word dependencies and order requirements. Your brain enforces these constraints by subconsciously creating a tree structure. It does not generate sentences by thinking about the first word, the second word, and so on, like a simple state machine. It starts with the overall sentence concept, the root of the tree structure. From there the brain creates phrases and subphrases until it reaches the leaves of the tree structure. From a computer scientist’s point of view, generating a sentence is a matter of performing a depth-first tree walk and “saying” the words represented by the leaves. The implicit tree structure conveys the meaning.
+Sentence recognition occurs in reverse. Your eyes see a simple list of words, but your brain subconsciously conjures up the implicit tree structure used by the person who generated the sentence.
+
+\section{difficulties}
+there are two very common difficulties encountered by grammar developers: Understanding why a grammar fragment results in a parser nondeterminism and determining why a generated parser incorrectly interprets an input sentence.
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+\section{Autumn Parsing Library}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+	Autumn is a context sensistive parsing library.
+	\begin{itemize}
+		\item Autumn is different from other parsing lib because it deals with true context sensitivity.
+		\item context-sensitive in parsing = tricky (context transparency) however lots of mainstream languages exhibit context sensitive features.
+		\item most grammar formalism lack context transparency, they handle context sensitivity with ad-hoc code outside of the scope of parsing theory.
+		\item  custom memoization and error han- dling strategies.
+
+	\end{itemize}
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Context sensitivity}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+	\begin{itemize}
+		\item grammar needs to remember what was previously matched to make a decision
+		\item Autumn uses a parse wide state to remember context
+		\item problem with stateful parsing : context transparency : Sometimes parse has to backtrack (explain here what backtracking is) and therefore need to undo changes made to the state.
+		\item One might think that it can be easily done with a simple construct that undo the change on failure
+		\item tricky part is : some parsers might be success full but because one of its ancestor failed, its changes has to be reverted anyway.
+		\item Autumn's approach to deal with context transparancy : principled stateful parsing
+		\item Principled stateful parsing define a set of primitive state manipulation operations that allows us to get an image of the parse state at a specific time and allow us to revert the state to that of the image. (consequence : we can backtrack safely)
+	\end{itemize}
+
+	A grammatical construct is context-transparent if it is unaware of the context shared between its ancestors and its descendants.
+	
+	Stateful parsing is not enough to deal with context sensitivity as it is not context-transparent. (We need to make sure that parsers combinator doesnt backtrack)
+
+	% Stateful parsers also are not context-transparent, as they must ensure that no unforeseen backtracking or memoization takes place. For instance, if a parser a manipulates the state and its callers do not expect it to backtrack, it cannot be swapped for a parser c(a) (where c is some parser combinator) without first ensuring that c(a) never backtracks over a.
+
+	% As the previous section has shown, enabling the definition of context-sensitive languages without jeopardizing maintainability, composability or even safety is no easy feat. We put forward the notion of context transparency as the gold standard that a context sensitive parsing mechanism needs to meet in order to be considered sufficiently practical.
+	% Data-dependent grammars, monadic parsers, DCGs and attribute grammars are not context-transparent because of the need to explicitly pass values around. For instance, consider two data-dependent grammars4: a grammar for a Python- like language with significant indentation, in which the rules for block-level constructs (statements, definitions) are paremeterized by the indentation level; and a grammar for a generic macro definition language (e.g., GNU M4). We want to compose these two languages such that macro definitions may appear anywhere where definitions can appear in our Python-like language. Additionally, we want macro bodies to include Python-like code.
+	% The issue is that the rules in the macro language grammar know nothing about indentation level, yet the indentation level needs to be shared between the block holding the macro definition and the Python-like code appearing inside macro definitions. In this case, the lack of context transparency would force us to rewrite all rules in the macro language grammar to carry around the indentation level.
+	% Stateful parsers also are not context-transparent, as they must ensure that no unforeseen backtracking or memoization takes place. For instance, if a parser a manipulates the state and its callers do not expect it to backtrack, it cannot be swapped for a parser c(a) (where c is some parser combinator) without first ensuring that c(a) never backtracks over a.
+	% Lack of context-transparency makes grammars hard to reason about, hence hard to write and to maintain: refactoring, extending or composing grammars becomes particularly challenging, because each change to a rule might entail the need to modify all rules through which it is (transitively) reachable. In stateful parsers, such changes are liable to introduce undesired backtracking or memoization.
+	% We suggest a simple solution: use stateful parsing (which does not thread context through the grammar), but undo state changes upon backtracking and allow the memoization of state changes. And to achieve this, we introduce a new context sensitivity handling discipline: principled stateful parsing.
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Principled Stateful Parsing}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+
+% If the execution of a parser were linear, simply read- ing/writing to this state would suffice. Unfortunately, parsers must sometimes perform speculative executions that may fail further down the line, a phenomenon called backtracking. When backtracking occurs, all state changes in the specu- lative execution being backtracked over must be reversed. Hence, we need an operation that can take a snapshot of the state at a given point, and an operation that can restore the state described by such a snapshot.
+
+	\subsubsection{Parse State}
+	\begin{itemize}
+		\item state = passing context around implicitly
+		\item if execution = linear, reading/writting to this state would suffice.
+		\item althought because of backtracking (speculative execution) : we need to reverse the state.
+	\end{itemize}
+	\subsubsection{Parsers} A parser represents a computation over the parse state that either succeeds or fails and has side effects on the parse state.
+	\subsubsection{Primitive Operations}
+	To deal with backtracking we need operations that can take a picture of the state at a particular time and restore it. 4 operations are used to manipulate states:
+	\begin{itemize}
+		\item snapshot : capture of the state at a specific point during the execution. 
+		\item restore : The restore operation takes a snapshot as input and returns a transformation that brings the state to that described by the snapshot.
+		\item diff : The diff operation returns a DELTA object representing the difference between a snapshot and the current state
+		\item merge : The merge operation takes a delta as input and returns a transformation that appends this delta to the input state.
+	\end{itemize}
+
+
+		% \paragraph{context sensitivity} to express context-sensitive features: storing the matched input (or data derived thereof) in a mutable data store: the parse state.
+		% \paragraph{Using State} to pass context around implicitly (context transparency).
+		% \paragraph{Backtracking} can occur so we need to be able to reverse the state. This is done through a set of primitive operations that deals directly with the state.
+		% \paragraph{State store} is in fact a log of operations applied.
+
+		% % we established the relevance of context-sensitive parsing and introduced the notion of recall as a way to express context-sensitive features in terms of backreferences to previously matched input. We enable recall by storing the matched input (or data derived thereof) in a mutable data store: the parse state. This section expounds how principled stateful parsing is able to work with parse state while avoiding the usual pitfalls of stateful parsing (cf. sections 2.5 and 3).
+
+		% % The point of using state is to pass context around implicitly, without the need to hardwire context in the grammar, hence achieving context transparency (cf. Section 3). If the execution of a parser were linear, simply reading/writing to this state would suffice. Unfortunately, parsers must sometimes perform speculative executions that may fail further down the line, a phenomenon called backtracking. When backtracking occurs, all state changes in the specu- lative execution being backtracked over must be reversed. Hence, we need an operation that can take a snapshot of the state at a given point, and an operation that can restore the state described by such a snapshot.
+		% % Given these requirements, it helps to think of the parse state as a log of the operations applied to the state, which can be snapshot and rolled back as required. Appropriately, this is also how we formalize the parse state.
+		% % Additionally, it is sometimes desirable to save the result of a speculative execution (whether it failed or not), i.e., the state changes it induced: a delta acquired by performing a diff between the states before and after the execution. It is also necessary to be able to merge these changes back into the state. The most straightforward application of the diff and merge capabilities is the memoization of parse results. However, other valuable use cases exist, such as longest- match parsing and left-recursive parsing (see Section 5.4).
+		% % This motivates the need for four primitive state-manipulation operations: snapshot, restore, diff and merge. These opera- tions are described in section 4.2.3.
+
+		% \subsubsection{example}
+		% 	\paragraph{Significant whitespace}
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\section{Implementation}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	Explain how Autumn work from a high level ``intuitive'' level.
+
+	Highlight the main classes and explain how they work together. Maybe a UML chart ?
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%	
+		\subsection{Important classes}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+		\paragraph{Parsers} Parsers are function that return boolean, their implementation can be found in the parsers package and are implemented as extension functions of the grammar class
+		\paragraph{Grammar} Main class: Explain how the main parsing algo works. And that every structures(maybe explain what are those structure and their purpose) are defined here.
+		\paragraph{State/side effects/Undo structures} Explain how state is handled through undo structures, present the basic undo structures that are implemented and explain that the users can create custom structures for his needs.
+
+
+	% \paragraph{Grammar} In practice, the grammar class works as the central node of the framework. It contains the state store, the input and contains the logic for applying side effects and reverting them.
+	% \paragraph{Parsers} are defined as functions returning a boolean stating weither or not they succeeded. These functions can be combined to form more complex parsers called parser combinators. The package parsers include a serie of predifined primitive parsers ready for use.
+	% \paragraph{Stateful parsing} Stack - undolist ... More can be implemented
+
+
+% %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+% %
+% 	\section{Autumn grammar}
+% %
+% %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+% Discuss briefly what it looks like syntactically speaking (Maybe not so interesting ?)
