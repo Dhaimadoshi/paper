@@ -1,28 +1,94 @@
 %%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
-\chapter{Based Material}
+\chapter{Background Material}
 %%%%----%
 		%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
 		%
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+This chapter will review some important theoritical topics necessary to fully appreciate the work presented in this paper.
+
 %%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
 	\section{Parsing expression grammar} 
 	%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
 	%
 	%
 %%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+	Parsing expression grammar, or ``PEG'' is a formalism designed by \texttt{B.Ford} \cite{PEG} to describe machine-oriented syntax. To give a proper overview of parsing expression grammars, it is necessary to come back on the notion of \texttt{N.Chomsky}'s Context-free grammar (CFG \cite{CFG}) as they are very closely related. 
 
-\begin{itemize}
-	\item PEG = type of analytic formal grammar closely related to the family of top-down parsing languages
-	\item similar to context-free grammars (CFGs) but PEGs cannot be ambiguous; if a string parses, it has exactly one valid parse tree.
-	\item Formally, a parsing expression grammar consists of: A finite set N of nonterminal symbols. A finite set $\sum$ of terminal symbols that is disjoint from N. A finite set P of parsing rules. An expression eS termed the starting expression.
-	\item Each parsing rule in P has the form A $<-$ e, where A is a nonterminal symbol and e is a parsing expression. A parsing expression is a hierarchical expression similar to a regular expression, which is constructed in the following fashion:  
+	\subsection{Context Free Grammar}
+
+	A \textit{context-free gramma}r is described by a set of production rules and terminal symbols. A production rule is defined by a sequence of \textit{terminal symbols}. The left hand side of the production rule is usually refered to as a \textit{non-terminal symbol} Such rules describe the set of all possible strings of the language defined by the grammar.
+
+	\bigskip
+	
+	\begin{tcolorbox}
+	More formally :
+	\begin{align*}
+	G=(V,\Sigma, R,S)&&\\
+		\mbox{with } 	&V, 	\mbox{a finite set of non-terminal character or variable.} 
+	\\					&\Sigma, \mbox{a finite set of terminals.}
+	\\					&R, \mbox{a finite relation from } V \rightarrow(V \cup \Sigma)^*
+	\\					&S, \mbox{the starting symbol}
+	\end{align*}
+	\end{tcolorbox}
+
+	\bigskip
+
+	% \bigskip
+
+	Originally made to model natural (human) languages, the ability to express ambiguity was a crucial point to their original purpose that increased its expressive power. 
+	Ambiguity, however, is the very reason why CFGs makes it so difficult do express and parse machine-oriented languages. Such languages are intended to be precise and unambiguous by definition.
+
+
+	% \paragraph{Ambiguousity}
+
+
+	% As we all know, English and other natural languages can be delight- fully ambiguous. Any language with an ambiguous sentence is consid- ered ambiguous, and any sentence with more than a single meaning is ambiguous. Sentences are ambiguous if at least one of its phrases is ambiguous. Here is an ambiguous faux newspaper headline: “Bush appeals to democrats.” In this case, the verb appeals has two mean- ings: “is attractive to” and “requests help from.” This is analogous to operator overloading in computer languages, which makes programs hard to understand just like overloaded words do in English.
+
+	% For example, a syntax diagram for C can generate statement i*j; following the path for both a multiplicative expression and a variable definition (in other words, j is a pointer to type i). To learn more about the relationship of ambiguous languages to ANTLR grammars,
+
+	% Complex language generation enforces word dependencies and order requirements. Your brain enforces these constraints by subconsciously creating a tree structure. It does not generate sentences by thinking about the first word, the second word, and so on, like a simple state machine. It starts with the overall sentence concept, the root of the tree structure. From there the brain creates phrases and subphrases until it reaches the leaves of the tree structure. From a computer scientist’s point of view, generating a sentence is a matter of performing a depth-first tree walk and “saying” the words represented by the leaves. The implicit tree structure conveys the meaning.
+	% Sentence recognition occurs in reverse. Your eyes see a simple list of words, but your brain subconsciously conjures up the implicit tree structure used by the person who generated the sentence.
+
+
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+		\subsection{PEG}
+
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+	Parsing Expression Grammars provide a better framework for describing machine-oriented langages by avoiding ambiguity altogether. PEG is very similar to context-free grammars in the sense that it can be considered an extention of it.
+
+	The most important difference between the two is that production rules in CFG features non-deterministic choice between alternatives while PEG introduce prioritized choice order. A consequence of that is PEG is unambiguous by construction, each rule can indeed produce but a single outcome, therefore, a successful parse can result in only one valid parse tree. On the flip side of the coin, PEG users have to deal with ``language hiding''. Consider the simple choice rule $a|aa$, in the PEG formalism, we will always match the left side $a$ and never the right side $aa$. Trying to parse the input ``aa'' with this rule will fail. 
+
+	\bigskip
+
+	\begin{tcolorbox}
+	Formally, a parsing expression grammar consists of: 
 	\begin{itemize}
-		\item An atomic parsing expression consists of: any terminal symbol, any nonterminal symbol, or the empty string.
-		\item Given any existing parsing expressions e, e1, and e2, a new parsing expression can be constructed using the following operators: Sequence Ordered choice Zero-or-more One-or-more Optional And-predicate Not-predicate
+		\item A finite set $N$ of nonterminal symbols.
+		\item A finite set $\Sigma$ of terminal symbols that is disjoint from $N$
+		\item A finite set $R$ of parsing rules
+		\item A starting expression $eS$
 	\end{itemize}
-	\item desirable properties: closure under composition, built-in disambiguation, unifica- tion of syntactic and lexical concerns, and closely matching programmer intuition.
-	\item struggle with left-recursive grammar rules : infinite recursion
-	\item  These include parser generators (like the venerable Yacc) and more recently parser combinator libraries [5].
-\end{itemize}
+
+	Each parsing rule in $P$ has the form A $\leftarrow$ e, where $A$ is a nonterminal symbol and $e$ is a parsing expression.
+
+	A parsing expression is a hierarchical expression similar to a regular expression that can either be atomic or a combination of parsing expressions.
+
+	\begin{itemize}
+		\item An atomic parsing expression is either any terminal symbol, any nonterminal symbol, or the empty string.
+		\item Given any existing parsing expressions, a new parsing expression can be constructed using the following operators: \textit{Sequence, Ordered-choice, Zero-or-more, One-or-more, Optional, And-predicate, Not-predicate}
+	\end{itemize}
+	\end{tcolorbox}
+
+	% desirable properties: 
+	% \begin{itemize}
+	% 	\item closure under composition
+	% 	\item built-in disambiguation
+	% 	\item unification of syntactic and lexical concerns
+	% 	\item closely matching programmer intuition.
+	% \end{itemize}
+
+% Look ahead
+% The original PEG paper [7] states “A PEG may be viewed as a formal description of a top-down parser”. CFGs are centered on language generation, whereas PEGs are centered on language recognition.
 
 \begin{comment}
 	\item Most of the work on parsing has been built on top of Chomsky’s context-free grammars (CFGs). 
@@ -46,54 +112,62 @@
 	\item he recognition-oriented nature of PEGs creates a natural affinity in terms of syntactic expressiveness and parsing efficiency.
 \end{comment}
 
-The fundamental difference between context-free grammars and parsing expression grammars is that the PEG's choice operator is ordered.
-
-\begin{itemize}
-	\item DSLs are generally very high-level languages tailored to specific tasks.
-	\item DSLs are particularly important to software development because they represent a more natural, high-fidelity, robust, and maintainable means of encoding a problem than simply writing software in a general- purpose language.
-\end{itemize}
+% \begin{itemize}
+% 	\item DSLs are generally very high-level languages tailored to specific tasks.
+% 	\item DSLs are particularly important to software development because they represent a more natural, high-fidelity, robust, and maintainable means of encoding a problem than simply writing software in a general- purpose language.
+% \end{itemize}
 
 
-\paragraph{Parsing} Imagine a maze with a single entrance and single exit that has words written on the floor. Every path from entrance to exit generates a sentence by “saying” the words in sequence. In a sense, the maze is analogous to a grammar that defines a language.
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+\subsection{Parsing}
+
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+As \texttt{Terence Parr} \cite{antlr} put it, parsing can be explained using the maze metaphore. Imagine a maze with a single entrance and single exit that has words written on the floor. Every path from entrance to exit generates a sentence by “saying” the words in sequence. In a sense, the maze is analogous to a grammar that defines a language.
 
 You can also think of a maze as a sentence recognizer. Given a sentence, you can match its words in sequence with the words along the floor. Any sentence that successfully guides you to the exit is a valid sentence in the language defined by the maze. 
 
-At almost every word, the recog- nizer must make a decision about the interpretation of a phrase or subphrase. Sometimes these decisions are very complicated. For example, some decisions require information about previous decision choices or even future choices. Most of the time, however, decisions need just a little bit of lookahead information.
+At almost every word, the recognizer must make a decision about the interpretation of a phrase or subphrase. Sometimes these decisions are very complicated. For example, some decisions require information about previous decision choices or even future choices. Most of the time, however, decisions need just a little bit of lookahead information.
 
-\paragraph{Grammar} To understand grammars and to understand their capabilities and limitations, you need to learn about the nature of computer languages.
+% 
+% \paragraph{Grammar} 
 
-Represent grammar as a state machine; states and transitions labeled with vocabulary symbols. The transitions are directed connections that govern navigation among the states. Machine execution begins in state s0, the start state, and stops in s4, the accept state.
+% To understand grammars and to understand their capabilities and limitations, you need to learn about the nature of computer languages.
 
-The machine can also generate invalid sentences, such as “Your truck is sad and sad.” Grammatical does not imply sensible. For example, “Dogs revert vacuum bags” is grammatically OK but doesn’t make any sense. 
-The difference between the regular and context-free languages is the differ- ence between a state machine and the more sophisticated machines in the next section. The essential weakness of a state machine is that it has no memory of what it generated in the past. 
-Trees Such trees are called derivation trees when generating sentences and parse trees when recognizing sen- tences.
-It turns out that the humble stack is the perfect memory structure to solve both word dependency and order problems.4 Adding a stack to a state machine turns it into a pushdown machine. A state machine is analogous to a stream of instructions trapped within a single method, unable to make method calls. A pushdown machine, on the other hand, is free to invoke other parts of the machine and return just like a method call. The stack allows you to partition a machine into submachines. These submachines map directly to the rules in a grammar.
+% Represent grammar as a state machine; states and transitions labeled with vocabulary symbols. The transitions are directed connections that govern navigation among the states. Machine execution begins in state s0, the start state, and stops in s4, the accept state.
 
-\paragraph{Ambiguousity}
+% The machine can also generate invalid sentences, such as “Your truck is sad and sad.” Grammatical does not imply sensible. For example, “Dogs revert vacuum bags” is grammatically OK but doesn’t make any sense. 
+
+% The difference between the regular and context-free languages is the differ- ence between a state machine and the more sophisticated machines in the next section. The essential weakness of a state machine is that it has no memory of what it generated in the past. 
+% Trees Such trees are called derivation trees when generating sentences and parse trees when recognizing sen- tences.
+% It turns out that the humble stack is the perfect memory structure to solve both word dependency and order problems.4 Adding a stack to a state machine turns it into a pushdown machine. A state machine is analogous to a stream of instructions trapped within a single method, unable to make method calls. A pushdown machine, on the other hand, is free to invoke other parts of the machine and return just like a method call. The stack allows you to partition a machine into submachines. These submachines map directly to the rules in a grammar.
 
 
-As we all know, English and other natural languages can be delight- fully ambiguous. Any language with an ambiguous sentence is consid- ered ambiguous, and any sentence with more than a single meaning is ambiguous. Sentences are ambiguous if at least one of its phrases is ambiguous. Here is an ambiguous faux newspaper headline: “Bush appeals to democrats.” In this case, the verb appeals has two mean- ings: “is attractive to” and “requests help from.” This is analogous to operator overloading in computer languages, which makes programs hard to understand just like overloaded words do in English.
-
-For example, a syntax diagram for C can generate statement i*j; following the path for both a multiplicative expression and a variable definition (in other words, j is a pointer to type i). To learn more about the relationship of ambiguous languages to ANTLR grammars,
-
-Complex language generation enforces word dependencies and order requirements. Your brain enforces these constraints by subconsciously creating a tree structure. It does not generate sentences by thinking about the first word, the second word, and so on, like a simple state machine. It starts with the overall sentence concept, the root of the tree structure. From there the brain creates phrases and subphrases until it reaches the leaves of the tree structure. From a computer scientist’s point of view, generating a sentence is a matter of performing a depth-first tree walk and “saying” the words represented by the leaves. The implicit tree structure conveys the meaning.
-Sentence recognition occurs in reverse. Your eyes see a simple list of words, but your brain subconsciously conjures up the implicit tree structure used by the person who generated the sentence.
-
-\section{difficulties}
-there are two very common difficulties encountered by grammar developers: Understanding why a grammar fragment results in a parser nondeterminism and determining why a generated parser incorrectly interprets an input sentence.
-
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-\section{Autumn Parsing Library}
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+	\section{Autumn Parsing Library}
+	\label{sec:autumn}
+	%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
+	%
+	%
+%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----%%%%----
 	Autumn is a context sensistive parsing library.
 	\begin{itemize}
 		\item Autumn is different from other parsing lib because it deals with true context sensitivity.
 		\item context-sensitive in parsing = tricky (context transparency) however lots of mainstream languages exhibit context sensitive features.
 		\item most grammar formalism lack context transparency, they handle context sensitivity with ad-hoc code outside of the scope of parsing theory.
-		\item  custom memoization and error han- dling strategies.
+		\item custom memoization and error han- dling strategies.
 
 	\end{itemize}
+
+Autumn's parsing library is based on Grammar parsing expression, 
+%  - il faut faire gaffe que Autumn ne suit pas strictement le formalisme PEG
+    
+      % Parce que PEG formalise une série d'opérateur et la sémantique des
+      % grammaires qui résulte de l'utilisation de ces opérateurs.
+      
+      % Autumn, lui, formalisme plutot un "flow fonctionnel" ou tu peux plugger
+      % des functions arbitraires qui consulte l'input, et font soit avencer le
+      % parse, soit échoue. On peut bien sure utiliser ces fonctions pour
+      % implémenter tous les opérateurs PEG standard.
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\subsection{Context sensitivity}
@@ -176,10 +250,20 @@ there are two very common difficulties encountered by grammar developers: Unders
 		\paragraph{State/side effects/Undo structures} Explain how state is handled through undo structures, present the basic undo structures that are implemented and explain that the users can create custom structures for his needs.
 
 
+
 	% \paragraph{Grammar} In practice, the grammar class works as the central node of the framework. It contains the state store, the input and contains the logic for applying side effects and reverting them.
 	% \paragraph{Parsers} are defined as functions returning a boolean stating weither or not they succeeded. These functions can be combined to form more complex parsers called parser combinators. The package parsers include a serie of predifined primitive parsers ready for use.
 	% \paragraph{Stateful parsing} Stack - undolist ... More can be implemented
 
+% \section{difficulties} 
+
+% The most common problem encountered by grammar developpers is to determine why a generated parser incorrectly interprets an input sentence. Generally, an incorrect parse can be reduced to three different cases:
+
+% \begin{itemize}
+% 	\item The grammar contains a certain number of wrong production rules that leads to a wrong interpretation of the input.
+% 	\item The input itself contains incorrect parts with respect to the specification of the grammar which in turns lead to a wrong interpretation of the input.
+% 	\item There is a mistake in the definition of some user custom parser.
+% \end{itemize}
 
 % %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 % %

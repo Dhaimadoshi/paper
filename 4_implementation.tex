@@ -1,103 +1,135 @@
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %
 \chapter{Implementation}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	This chapter will present the practical implementation of the solution.
 
+	In section \ref{sec:autumn}, we presented the overall structure of the Autumn parsing libraries. 
+
+	The debugging logic has been implemented using hooks attached to the parsers.
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+\section{The debuging tool implementation}
 %
-	\section{Debuggin tool}
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	
+	First, I'd like to specify that autum = lib and we didnt want ocupling
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Overview of the structure}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-%
-		\subsection{New implementation for the parsers}
-%
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-\begin{itemize}
-	\item autumn parsers were first implemented as boolean functions
-	\item it was difficult to create a debugger for this implementation
-	\item parsers are now objects that inherit from a ``parser'' super class
-	\item each parser object wrap around the parser function
-	\item this implementation was called ``naive'' because performance issues due to megamorphic call sites were expected with the creation of so many objects.
-	\item benchmark revealed that the performance difference was neglectable.
-\end{itemize}
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-%
-		\subsection{New grammar and model Compiler}
-%
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-\begin{itemize}
-	\item because of the new implementation of the parsers, a new grammar needed to be written
-	\item writting grammar is time consuming and prone to error business
-	\item also because we expected performances issues with the new implementation of parsers, we wanted to compare both implementation
-	\item to make sure that both implementation was comprehensive and correct, a single model of the grammar as beed created
-	\item this model has been feeded to two compilers
-	\item the first regenerated the same grammar using the parser functions
-	\item the other generated a new grammar using the parser objects.
-	\item the validation section will discuss the results of the benchmark.
-	\item note : this structure model/compiler allow us to change the implementation of some/all the parsers without the need to modify or rewrite the grammar from scratch which would be very tedious.
-\end{itemize}
+	\begin{itemize}
+		\item model
+		\begin{itemize}
+			\item builder
+			\item model compilers
+			\begin{itemize}
+				\item model compiler
+				\item graph model compiler
+			\end{itemize}
+		\end{itemize}
+		\item parsers interface, subparsers
+		\item syntax tree STnode
+	\end{itemize}
 
 \begin{itemize}
-	\item schemas qui explique la structure model/grammar.
+	\item autumn
+	\begin{itemize}
+		\item parse state
+		\begin{itemize}
+			\item undoable list
+			\item undoable map
+		\end{itemize}
+		\item grammar
+	\end{itemize}
 \end{itemize}
 
-% Since we had to modify the implementation of the parsers to change them from boolean functions to objects, we needed to rewritte java grammar. This is a tedious and difficult task to engage with. Symetrically to what was discussed earlier, When errors arise, it is difficult to determine if they are the results of mistakes in the grammar or in the implementation of the parsers. Therefore, we wrote a model representing java grammar on top of which we could write a compiler to regenerate the grammar using different implementation of the parsers. This allowed us to work on the parsers knowing that the grammar was correct.
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Hooking into the parsers implementation}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	To inject the debuging logic, we created a hook in Autumn's parsers implementation. Originally, the parsers were implemented in a strictly functionnal fashion. Autumn define a parser simply as a boolean function taking some input, optionally modifying the parse state and returning a boolean indicating the success or failure of the parser. To implement our hook, we transformed the parsers into objects. To do so, we simply wrapped the original implementation inside of objects in such a way that each parsers could inherrit from a main parser interface. When invoked, the interface calls the hook to start the debug logic.
 
+	\paragraph{}
+
+	Such simple implementation was qualified ``naive'' because we suspected that it would cause some performances issues due to constant creation of new objects during the parse, this issue was referred to as megamorphic call sites. Interestingly, benchmark has proven that both implementation ran in a similar time, thus eliminating the need to change the implementation further.
+
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+%
+	\subsection{Rewritting the grammar, the notion of model and model Compiler}
+%
+%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+	The decision of rewritting the parsers implied that we had to rewrite the grammar to reflect those changes as well. As discussed before, writing grammar without proper debugging tools can be a time consuming, error prone business. Moreover, to investigate the suspected performances issues related to megamorphic call site, we wanted to make sure that we could recreate this new grammar in such a way that we could effectively compare its performances with the previous implementation.
+
+	\paragraph{}
+
+	To do so, we created a \textbf{object graph model} representing the grammar. This model would be used to generate actual grammars using a model compiler. The first challenge was to regenerate the exact same java grammar we had before based on the model. The reason for this step was to ensure the correctness of the model, if we can regenerate the grammar from the model, then we can be sure that another grammar generate from the same model will be correct as well.
+
+	The second compiler, baptise ``graph model compiler'' aimed to generate a java grammar based on the object implementation of the parsers. Then, both grammar was tested on a consequential java corpus. It appeared that the performances of both implementation was really similar, and therefore, the creation of many objects didn't impact the time complexity of the algorithm.
+
+	The validation section will discuss this in more detail.
+
+	\paragraph{}
+
+	Note that another motivation to creating this framework was to simplify the writting of grammar. By not being constrained by inlining notation, the verbosity of the grammar is therefore reduced.
+
+% \begin{itemize}
+% 	\item schemas qui explique la structure model/grammar.
+% \end{itemize}
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %
 		\subsection{Syntax Tree generation}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-\begin{itemize}
-	\item autumn doesnt build a syntax tree, instead it builds an AST
-	\item the AST abstract some of the nodes together to reduce the general size of the tree
-	\item for debuging purposes, it is needed to have a direct mapping between the nodes of the tree and the rules of the grammar.
-	\item the syntax tree is build by the debuging logic, separately from autumn AST
-	\item if we do not debug, the ST is not built
-	\item It has been made that way because I wanted to isolate the implementation of the debugger from the implementation fo autumn
-	\item For debugging purposes, backtracking nodes are kept within the tree as well
-	\item Backtracking nodes are of course marked as backtracked
-\end{itemize}
+	
+	The AST autumn is building during the parse is abstracting some of the nodes together to reduce the size of the tree and make it more readable from a human stand-point. A consequence of this is that we don't have a direct mapping between tree nodes and grammar rules.
 
-The implementation of the syntax tree is contain in the STNode class. It is the structure that holds all the informations needed to debug the grammar.
+	This is a critical part of the debuging effort. The syntax tree is build by the debuging logic, separately from autumn AST and is only build during in debugging mode.
+ 	For debugging purposes, backtracking nodes are kept within the tree as well. Backtracking nodes are of course marked as backtracked
+
+ 	\paragraph{}
+
+	The implementation of the syntax tree is contain in the STNode class. It is the structure that holds all the informations needed to debug the grammar.
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %
-		\subsection{Debug Nodes}
+		\subsection{Debug logic and syntax nodes}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
-\begin{itemize}
-	\item Debugger logic is hooked on the parsers invocation
-	\item at each invocation the debugger create a node with information about the state of the parse as well as the position in the input.
-	\item There is therefore a node per parser that form the syntax tree
-	\item the state is not copied in each node of course
-	\item the state works as a log with each entry the modification made to the parse state
-	\item each entry can be undone and redone at will
-	\item each node remember the size of the log at the invocation of the corresponding parser
-	\item the state can therefore be regenerated for analyze purposes
-\end{itemize}
+	When called the debuging logic will start building up the syntaxt tree as the different parsers get invoked. For each invoked parser, a syntax node is created graft onto the tree. The final syntax tree counts one node per parser invoked.
 
-The debug logic is contained in the debugNode class. Any number of additional functionality can be added by creating new hooks to the implementation of the debug function
-%
-		\subsection{Syntax tree nodes}
-%
-%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	One might wonder what happens when a particular parser fail and backtracked over. Nothing happens, we keep this node right inside the tree, because for debugging purposes, it can be interesting to see which node backtracked as a rule could fail to match an input while its intended purpose was to match it.
 
-\begin{itemize}
-	\item Each nodes of the syntax tree is created by the debugger at the invocation of the parsers
-	\item each nodes knows information about the parser it is linked to
-	\item its type
-	\item if it is the definition of a rule
-	\item the position in the input
-	\item the size of the state log to be able to regenerate the state
-	\item the nodes works as a linked list. it has a reference to its parent and children.
-\end{itemize}
+	\paragraph{}
+
+	The syntax tree itself is represented by a chained structure called syntax node, or STNode. Each parser call is represented by an STNode in the tree. It holds information about the parser:
+
+	\begin{itemize}
+		\item each nodes knows information about the parser it is linked to
+		\item its type
+		\item if it is the definition of a rule
+		\item the position in the input
+		\item the size of the state log to be able to regenerate the state
+		\item its parent and children
+	\end{itemize}
+
+	In the context sensitivity setting, it might be important to be able to display information related to the global parse state. The way autumn recall context is to register it within a mutable parse state. This parse state essentially works as a log whose entries represent mutations applied to this state. Each entry stores the mutation as well as a way to revert it, and later on reapply it. Therefore, it is possible by reccording the size of the log to actually regenerate the parse state corresponding to a specific parser call.
+
+	\paragraph{}
+
+	This state represent the context shared between different parsers, as such, when one parser backtracked, the mutations it applied to the parse state are reverted and removed from the log. Therefore, to be able to regenerate the parse state for backtracked parsers, we need to adapt our implementation a bit.
+
+	\paragraph{}
+
+	The debug logic is contained in the debugNode class. Any number of additional functionality can be added by creating new hooks to the implementation of the debug function
 
 
 % Usually in grammar parsing, the framework usually generate a syntax tree and let the user generate an AST derived from it. One of Autumn's specificity was that it didnt produce a Syntax tree and directly produced a AST. The problem with this approach on the debugger side is that we want to be able to see exactly which rule matched with the input and to do se we need the nodes from the tree to be in a direct mapping with the rules of the grammar.
@@ -105,7 +137,11 @@ The debug logic is contained in the debugNode class. Any number of additional fu
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\section{Plugin Implementation}
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	Intellij IDE's interace uses java SWING. Considering that the entire project has been code in Kotlin, we were reluctant to use this out of style implementation of GUI. Because we needed to our implementation to interoperate with the SWING components of the IDE, we considered javaFX\cite{oracle_javafx} which is an evolution of SWING by Oracle, but like its predecessor it's written in java and still very verbose. In the end, we were seduced by the tornadoFX\cite{tornadoFX} framework, coded in kotlin, it is build on top of of javaFX, assuring seamless interoperability with SWING as well as providing the powerful syntax of Kotlin.
+	Intellij IDE's interace uses java SWING. Considering that the entire project has been code in Kotlin, we were reluctant to use this out of style implementation of GUI.
+
+	\paragraph{}
+
+ 	Because we needed to our implementation to interoperate with the SWING components of the IDE, we considered javaFX \cite{oracle_javafx} which is an evolution of SWING by Oracle, but like its predecessor it's written in java and still very verbose. In the end, we were seduced by the tornadoFX \cite{tornadofx} framework, coded in kotlin, it is build on top of of javaFX, assuring seamless interoperability with SWING as well as providing the powerful syntax of Kotlin.
 
 		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 		\subsubsection{TornadoFX framework - reasons why we used tornadofx}
@@ -124,7 +160,7 @@ The debug logic is contained in the debugNode class. Any number of additional fu
 		% Motivational example in the intro guide
 
 		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-		\subsection{Event Handler - Message passing}
+		\subsection{Event Handler \& Message passing}
 		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 		implementation details of the GUI that are maybe not so relevant as we discussed ... I suppose Im gonna remove this section.
 

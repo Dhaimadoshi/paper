@@ -8,15 +8,19 @@
 \usepackage{times}
 \usepackage{url}
 \usepackage{comment}
+\usepackage{amsmath}
+\usepackage{tcolorbox}
+\usepackage{float}
 % \usepackage[<options>]{natbib}
+% \renewcommand{\baselinestretch}{4.5}
 
 %Includes "References" in the table of contents
 % \usepackage[nottoc]{tocbibind}
 
 \usepackage[
 breaklinks=true,colorlinks=true,
-%linkcolor=blue,urlcolor=blue,citecolor=blue,% PDF VIEW
-linkcolor=black,urlcolor=black,citecolor=black,% PRINT
+linkcolor=blue,urlcolor=blue,citecolor=blue,% PDF VIEW
+% linkcolor=black,urlcolor=black,citecolor=black,% PRINT
 bookmarks=true,bookmarksopenlevel=2]{hyperref}
 
 \usepackage{geometry}
@@ -29,24 +33,25 @@ bookmarks=true,bookmarksopenlevel=2]{hyperref}
 left=20mm,right=20mm,
 bindingoffset=10mm, top=25mm,bottom=25mm}
 
-\OnehalfSpacing
-%\linespread{1.3}
+% \OnehalfSpacing
+% \DoubleSpacing/
+\linespread{1.3}
 
 %%% CHAPTER'S STYLE
-\chapterstyle{bianchi}
-%\chapterstyle{ger}
-%\chapterstyle{madsen}
-%\chapterstyle{ell}
+% \chapterstyle{bianchi}
+% \chapterstyle{ger}
+% \chapterstyle{madsen}
+\chapterstyle{ell}
 %%% STYLE OF SECTIONS, SUBSECTIONS, AND SUBSUBSECTIONS
-\setsecheadstyle{\Large\bfseries\sffamily\raggedright}
-\setsubsecheadstyle{\large\bfseries\sffamily\raggedright}
-\setsubsubsecheadstyle{\bfseries\sffamily\raggedright}
+% \setsecheadstyle{\Large\bfseries\sffamily\raggedright}
+% \setsubsecheadstyle{\large\bfseries\sffamily\raggedright}
+% \setsubsubsecheadstyle{\bfseries\sffamily\raggedright}
 
 
 %%% STYLE OF PAGES NUMBERING
-%\pagestyle{companion}\nouppercaseheads 
-%\pagestyle{headings}
-%\pagestyle{Ruled}
+\pagestyle{companion}\nouppercaseheads 
+\pagestyle{headings}
+\pagestyle{Ruled}
 \pagestyle{plain}
 \makepagestyle{plain}
 \makeevenfoot{plain}{\thepage}{}{}
@@ -58,6 +63,8 @@ bindingoffset=10mm, top=25mm,bottom=25mm}
 \maxsecnumdepth{subsection} % chapters, sections, and subsections are numbered
 \maxtocdepth{subsection} % chapters, sections, and subsections are in the Table of Contents
 
+% 
+% \usepackage[dou­blespac­ing]{setspace}
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
@@ -111,9 +118,25 @@ August 2017
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
+\begin{abstract}
+The debuging process is a crutial part of the lifetime of any projects. Unfortunately general purpose debuggers cannot provide the level of abstraction needed to reason efficiently on grammar developpement related errors.
+
+We introduce a debugging tool to Autumn context-sensitive grammar. The goal is to provide the developpers with a tool that expose high level abstractions that represents the structure he reason about more closely, allowing him to track errors and resolve them more easily.
+\end{abstract}
+
+\cleardoublepage
+
+\renewcommand{\abstractname}{Acknowledgements}
+\begin{abstract}
+I would like to thank my mentor Kim Mens and PHD student Nicolas Laurent for their support and understanding.
+\end{abstract}
+
+\cleardoublepage
+
 \tableofcontents
 
 \clearpage
+
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%

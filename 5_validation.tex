@@ -3,15 +3,6 @@
 \chapter{Future work}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	
-	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	\section{GUI extentions}
-	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	Making use of tornadoFX powerful verboseless feature, we implemented the plugin strictly following the MVC paradigm, decoupling the functionalities from the display. We worked with easy maintainability and extendability in mind at all time. 
-
-	The code is divided in 3 different classes, there is the Model which stores all the data. Then there is the views that define the way data will be displayed. And finally, there is a controller, the middleman that request information to the model and dispatch them to the views. The implementation make use of an event system which help decouple the controller and the view furthermore. It is therefore very easy to create new views to hook on the masterview, or replace the masterview all together, the only thing needed is to listen to the event and display the received data in the chosen way. Symmetrically, it is as easy to create new filters, or provide new information to the views by creating new events and new methods in the controller.
-
-	Because Autumn implements stateful parsing, the users may define custom states for his parsers. It is then his responsability to create a display for it and to feed it to the plugin views. For this purpose I added an interface for the states that define a ``getRepresentation'' method.
 
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\section{Debugger extension}
@@ -23,6 +14,10 @@
 		\item create new state structure
 	\end{itemize}
 
+	\subsection{Turning the plugin into a full fledge independent software}
+
+	\subsection{Working in tandem with the general purpose debugger}
+
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\section{Autumn related}
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
@@ -31,37 +26,119 @@
 			\item as discussed, parsers as been reimplemented as objects.
 			\item the implementation was meant to be temporary because of the suspected performances issues
 			\item since this issues are neglictable, the functions can be directly integreted in the object implementation
+			\item better management of memory
 		\end{itemize}
 
+	
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\section{GUI extentions}
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	Making use of tornadoFX powerful verboseless feature, we implemented the plugin strictly following the MVC paradigm, decoupling the functionalities from the display. We worked with easy maintainability and extendability in mind at all time. 
 
+	\paragraph{}
+
+	The code is divided in 3 different classes, there is the Model which stores all the data. Then there is the views that define the way data will be displayed. And finally, there is a controller, the middleman that request information to the model and dispatch them to the views. The implementation make use of an event system which help decouple the controller and the view furthermore. It is therefore very easy to create new views to hook on the masterview, or replace the masterview all together, the only thing needed is to listen to the event and display the received data in the chosen way. Symmetrically, it is as easy to create new filters, or provide new information to the views by creating new events and new methods in the controller.
+
+	Because Autumn implements stateful parsing, the users may define custom states for his parsers. It is then his responsability to create a display for it and to feed it to the plugin views. For this purpose I added an interface for the states that define a ``getRepresentation'' method.
+
+% In test-driven development the debugger is used as a development tool given that it provides direct access to the running system [20].
+
+% Test Driven Development: By Example
+% Beck,K.:TestDrivenDevelopment:ByExample.Addison-WesleyLongman(2002)
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %
 \chapter{validation}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
-\section{Benchmark}
-Benchmark with consequent java code. Because of megamorphic call sites : expected the new implementation of the parsers to be much slower. in practice its not the case.
+\section{Benchmarking}
 
-\section{Debugging Benchmark}
-Avec l'ajout de la logique de debug, voila les perfs:
+\subsection{Profiling excution time}
 
-\begin{itemize}
-	\item vitesse d'execution comparée avec et sans le debug
-	\item memoire consomée par les structures de debug. (discuté si c'est un gros desavantage ou non, si oui apporter une solution pour travailler avec de gros fichier input.)
-\end{itemize}
+As mentionned earlier, one interesting aspect to look at in term of performances was the megamorphic call sites. To perfom a meaningful Benchmarking, a consequent java framework \cite{java_corpus} has been used as a input corpus for Autumn to parse. The framework itself contains 7800 files and more than a million lines, therefore representing a fairly big project.
+
+\bigskip
+
+Because of megamorphic call sites, it was expected that the new implementation of the parsers would be much slower. It indeed does have an impact on performances increasing the relative execution time by an order of magnitude of 25\%, which might be considered significant, although considering the overall execution time with respect to the size of the input (1.2 Million lines), it can be argued that this loss of performances doesnt impact the project so much.
+
+\bigskip
+
+Figures \ref{fig:prof_ggram} provide an illustration of the profiler for the functional parser implementation while figure \ref{fig:prof_javag} illustrate the results of the profiler for the object oriented implementation of the parsers.
+
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=.8\textwidth] {ressources/prof_javag}
+			\caption{Profiler for the benchmark with functional parser implementation} 
+			\label{fig:prof_ggram}
+		\end{figure}
+
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=.8\textwidth] {ressources/prof_ggram}
+			\caption{Profiler for the benchmark with object oriented implementation} 
+			\label{fig:prof_javag}
+		\end{figure}
+
+
+\bigskip
+
+Additionally, we also ran the benchmark for this corpus in debug mode for sake of comprehensivity. Although it is expected that our debugger will be used on smaller test inputs to verify the correctness of a portion of the grammar at a time, it is still relevant to measure the impact the overhead introduced by the debugger has on performances. As figure \ref{fig:prof_debug} demonstrate, the overhead introduced increase the execution time by an order of 10. Considering that debuggers are usually used to quickly test a solution rather than mentally check the correctness of the code, an execution time of 2 minutes is not acceptable. It is although not reasonable to think that one would use the debugger in that way for huge project like this one.
+
+
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=.8\textwidth] {ressources/prof_debug}
+			\caption{Profiler for the benchmark in debug mode} 
+			\label{fig:prof_debug}
+		\end{figure}
+
+
+
+\subsection{Profiling memory consumption}
+
+	In this section we are interested in the memory consumption overhead the debugger introduced. Generally, we expect that one would use this tool on very small examples to provide actionnabe feedback as he or she design the grammar. Therefore, the memory consumption on such small examples, which would represent the majority of the usual use-cases, isn't really critical. 
+
+	\bigskip
+
+	Despite this assumption, if for any reason, one would be interested in running the debugger on a large project, generating and maintaining a large amount of structures could represent an issue for memory consumption and prevent the algorithm to run altogether. To study this issue, we used JProfiler \cite{JProfiler} to analyze the memory consumption of the solution.
+
+	\bigskip
+
+	Figure \ref{fig:memory_ggrammar} and Figure \ref{fig:memory_debug} presents the live memory consumption after parsing the same corpus used in the previous section (Java spring framework containing 1.2 million lines).
+
+	We can observe that the structure maintained by the debugger increase the memory consumption significantly. The syntax tree alone generate more than 300MB of data, not considering the increased memory cost in the form of extra appliedSideEffects. Of course, the is no way around an increased overhead in memory consumption. Despite those observation, one might argue that, even thought the memory consumption has been increased significantly, the cheer size of the framework used for the benchmark rule out the need for additional modification for our debugger to run on bigger projects.
+
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=1\textwidth] {ressources/memory_ggrammar}
+			\caption{Memory consumption without debugging} 
+			\label{fig:memory_ggrammar}
+		\end{figure}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=1\textwidth] {ressources/memory_debug}
+			\caption{Memory consumption with debugging}
+			\label{fig:memory_debug}
+		\end{figure}
 
 
 
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\section{Debugger in practice}
+	\label{debugexample}
 	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
 	\subsection{Examples}
 
-	\begin{itemize}
-		\item case study 1 : error in grammar
-		\item case study 2 : error in input
-		\item case study 3 : error in parser definition
-		\item show how the debugger helps detecting errors in the differrent case studies
-	\end{itemize}
+	\paragraph{case study 1 : error in grammar}
+
+	For this example, we will show how to go about to detect an error in the grammar and how our tool helps to resolve the issue.
+
+
+	\paragraph{case study 2 : error in input}
+
+	This time, the grammar will be correct, but we will introduce a mistake in the parsed input and see how the tool helps to find out where the problem is.
+
+	\paragraph{case study 3 : error in parser definition}
+
+	Finally, because a user could define a custom parser to handle some custom/domain specific parse state, we will introduce a mistake in the definition of a parser and see how it can be detected.

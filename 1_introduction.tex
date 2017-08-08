@@ -1,58 +1,65 @@
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-\chapter{Introduction and motivation}
+\chapter{Introduction}
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+This paper will present a \textit{debugging tool} developped to help troubleshooting the design of Autumn grammars. First of all, I'd like to stress the fact that we are discussing a debugging tool as opposed to a \textit{``debugger''} strictly speaking. The reader might expect a debugger to be able to follow the flow of excecution in real time and to be able to stop it at will. Instead, our tool explore another approach: it first let the execution of the parse run completely, gathering all the relevant information needed to reason about the grammar down the road. In that quality, it is more like an code anylizer rather than a debugger stricly speaking.
 
-	\begin{itemize}
-		\item debugger for autumn
-		\item not a debugger a proprement parler
-		\item it actually is more like a code anylizer but for the rest of this paper we will refer to it as a ``debugging tool''
-		\item autumn is a parser library
-		\item what is special about autumn ?
-		\item Ok autumn is cool, but have no debugger
-		\item debugger are important why ?
-		\item ok lets read about it
-	\end{itemize}
+\bigskip
 
-	\begin{itemize}
-		\item language tools = pretty cool
-		\item programmers are building domain-specific languages
-		\item many mainstream programming and markup language possess context-sensitive features. 
-		\item however few solution exists for true context-sensitive parsing
-		\item Autumn is a context sensitive parser combinator developped in Kotlin.
-		\item particularity : it can deal with context sensitive grammars.
-		\item debuggers = important tool = expose the underlying execution and helps detect issues and correct them
-		\item traditional debuggers =  generic mechanisms to explore and exhibit the execution stack and system state
-		\item grammar developpement and parsing developper = domain-specific reasoning
-		\item creates gap between the debugging needs and the debugging support.
-		\item Writting and debugging grammar is tricky business. 
-		\item Errors throwed while executing grammar are rarely useful for debuging.
-		\item we don't know if the error comes from the grammar or the input.
-		\item we propose a code inspection tool to help expose those higher level concepts 
-		\item code inspection tool and intellij IDE plugin designed to work with Autumn Grammars.
-		\item provide the user with relevant information he can easily reason with to track and identify potential issues in a much easier way.
-		\item to convince ourselves, lets have a look at an example. (example showing unhelpful error message and highlighting what kind of information would be more relevant)
-	\end{itemize}
+Notherless, the object of this tool is to help debug a grammar, therefore, we will simply refer to our debugging tool with the word \textit{``debugger''} for the rest of this paper. Please take note of this nomenclature specificity. 
 
-		The goal is to simplify the life of the developper when writting grammars.
-	Just as developers use IDEs (integrated development environments) to dramatically improve their productivity, programmers need a sophisticated development environment for building, understanding, and debugging grammars. 
+\bigskip
+
+\section{Motivation}
+
+During the lifetime of any project, the chunk dedicated to debugging is usually important and represent a crucial step in the developpement of a solution. Traditionnally, debuggers have given the developpers access to the running systems and general mechanism that expose the raw system state. Although this solution gives a universal framework to debug any project, the fact is developpers think and reason in term of high level abstractions while the debuggers only expose raw data which force the developpers to mentally refine their high level questions into low level ones making the debugging session an unnecessarily difficult and error prone endeavor which in term can increase the developpement duration and cost \cite{economicdebug}.
+
+\bigskip
+
+When applied to our domain of parsing and language recognition, this problem becomes all the more obvious. For example, consider the parse of an input, one might be interested to analyze the behavior of the parser past a certain position in the input stream. Since general purpose debuggers have no knowledge about parsing or input streams, the developper would have to manually single step through the entire execution until we reach the affordmentionned input position.
+
+Moreover, writting grammars is a tricky and error probed business. Errors could come from a mistake in the definition of the grammar or from a mistake in the input stream or even from a mistake in some user defined parser. The highly recursive nature of grammars makes it so that errors reported by the general purpose debugger are rarely useful. Indeed, the debugger having no knowledge about those higher level abstractions cannot inform the developpers with clear information to reason with.
+
+% Debuggers are comprehension tools. direct access to the running system Despite their importance, most debuggers only provide low-level operations that do not capture user intent and standard user interfaces that only display generic information. traditional debuggers =  generic mechanisms to explore and exhibit the execution stack and system state, expose the underlying execution and helps detect issues and correct them
+
+\bigskip
+
+Other debugging solution has been developped for other parsing library, what makes our solution different is the simplicity of our approach combined with the power of Autumn's parsing library to express true context sensitivity.
+
+\bigskip
+
+Nowadays, most modern programming languages exhibit context sensitivity features\footnote{TODO: add ref}, for example, python exhibits context sensitivity through significant whitespace. However, true context-sensitivity has rarely handled by parsing libraries. The reason lies with the difficulties to express context sensitivity with current grammar formalisms. As a result most solutions lack context transparancy (Grammatical construct needs to be unaware of the context shared between its ancestors and its descendants) and instead intertwin context and grammar making it difficult to maintain or eaven reason about.
+
+\bigskip
+
+In the other hand, Autumn is a context sensitive parser combinator library that approach the issue of context transparancy by intoducing the \textbf{``principled stateful parsing''} discipline. It is based on a \textit{stateful parsing} approach in which the context is passed implicitely through a parse wide mutable state. This approach introduce its own set of problems that Autumn solve by introducing a set a primitive operations designed to formally interact with the parse state.
+
+\bigskip
+% So the approach is to simply the life of the use by writting a debugger. 
+
+
+We propose a code inspection tool for Autumn's grammar designed as an Intellij plugin user interface that allow the exposure of higher level concepts relevant to parsing theory such as syntax tree inspector in all simplicity. With this tool, the developper can test grammar rules and track the invocation sequence of the parsers helping him to detect errors accross the project.
+
+To convince ourselves, I will refer to section \ref{debugexample} in which we present several case studies highlighting the possibilities of our solution in comparison to general purpose debuggers.
+
+\bigskip
+
+Our goal is to simplify the life of Autumn grammar developpers. Just as developers use IDEs to dramatically improve their productivity, programmers need a sophisticated development environment for building, understanding, and debugging grammars. 
 
 	\begin{comment}
 
-		Current grammar formalisms struggle to express context-sensitive features. Most solutions lack context transparency: they make grammars hard to write, maintain and compose by hardwiring context through the entire grammar. Instead, we approach context-sensitive parsing through the idea that parsers may recall previously matched input (or data derived therefrom) in order to make parsing decisions. We make use of mutable parse state to enable this form of recall.
 
-		Writting and debugging grammar is tricky business. Errors throwed while executing grammar are rarely useful for debuging. The log doesnt tell us if the error comes from the grammar or the input. The dump file is really not managable. So the approach is to simply the life of the use by writting a debugger. 
+Despite their importance, most debuggers only provide low-level operations that do not capture user intent and standard user interfaces that only display generic information. These issues can be addressed if developers are able to create domain-specific debuggers adapted to their problems and domains. Domain- specific debuggers can provide features at a higher level of abstraction that (i) match the domain model of software applications and (ii) group contextual information from various sources.
 
-		Debuggers are comprehension tools. They are often used by developers to under- stand the run-time behavior of software and elicit run-time information [18,19]. In test-driven development the debugger is used as a development tool given that it provides direct access to the running system [20]. Despite their importance, most debuggers only provide low-level operations that do not capture user intent and standard user interfaces that only display generic information. These issues can be addressed if developers are able to create domain-specific debuggers adapted to their problems and domains. Domain- specific debuggers can provide features at a higher level of abstraction that (i) match the domain model of software applications and (ii) group contextual information from various sources.
+Consider a framework for synchronous message passing. One common use case in applications using it is the delivery of a message to a list of subscribers. When debugging this use case, a developer might need to step to when the current message is delivered to the next subscriber. One solution is to manually
+step through the execution until the desired code location is reached. Another consists in identifying the code location beforehand, setting a breakpoint there and resuming execution. In both cases developers have to manually perform a series of actions each time they want to execute this high-level operation.
 
-		In this section we establish and motivate four requirements that an infrastruc- ture for developing domain-specific debuggers should support, namely: domain- specific user interfaces, domain-specific debugging operations, automatic discov- ery and dynamic switching\cite{moldable}.
-
+The lack of a debugger at the proper abstraction level limits an end-user‟s ability to discover and locate faults in a DSL program.
 
 	\end{comment}
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%	
-
 
 
 	 %The Dump file is really not managable. 
