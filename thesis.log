@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  8 AUG 2017 14:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  8 AUG 2017 18:57
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1011,7 +1011,29 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box46
 \@float@everytoks=\toks42
 \@floatcapt=\box47
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count167
+\lst@gtempboxa=\box48
+\lst@token=\toks43
+\lst@length=\count168
+\lst@currlwidth=\dimen257
+\lst@column=\count169
+\lst@pos=\count170
+\lst@lostspace=\dimen258
+\lst@width=\dimen259
+\lst@newlines=\count171
+\lst@lineno=\count172
+\lst@maxwidth=\dimen260
+(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count173
+\lst@skipnumbers=\count174
+\lst@framebox=\box49
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2016/05/05 v6.83n Hypertext links for LaTeX
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
@@ -1058,15 +1080,15 @@ Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
-\@linkdim=\dimen257
-\Hy@linkcounter=\count167
-\Hy@pagecounter=\count168
+\@linkdim=\dimen261
+\Hy@linkcounter=\count175
+\Hy@pagecounter=\count176
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2016/05/05 v6.83n Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count169
+\Hy@SavedSpaceFactor=\count177
 (/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
@@ -1080,12 +1102,12 @@ Package hyperref Info: Plain pages OFF on input line 4461.
 Package hyperref Info: Backreferencing OFF on input line 4466.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4691.
-\c@Hy@tempcnt=\count170
+\c@Hy@tempcnt=\count178
 LaTeX Info: Redefining \url on input line 5044.
-\XeTeXLinkMargin=\dimen258
-\Fld@menulength=\count171
-\Field@Width=\dimen259
-\Fld@charsize=\dimen260
+\XeTeXLinkMargin=\dimen262
+\Fld@menulength=\count179
+\Field@Width=\dimen263
+\Fld@charsize=\dimen264
 Package hyperref Info: Hyper figures OFF on input line 6298.
 Package hyperref Info: Link nesting OFF on input line 6303.
 Package hyperref Info: Hyper index ON on input line 6306.
@@ -1095,22 +1117,22 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6323.
 Package hyperref Info: PDF/A mode OFF on input line 6328.
 LaTeX Info: Redefining \ref on input line 6368.
 LaTeX Info: Redefining \pageref on input line 6372.
-\Hy@abspage=\count172
-\c@Item=\count173
-\c@Hfootnote=\count174
+\Hy@abspage=\count180
+\c@Item=\count181
+\c@Hfootnote=\count182
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/memoir/memhfixc.sty
 Package: memhfixc 2013/05/30 v1.17 nameref/hyperref package fixes for memoir cl
 ass
-\c@memhycontfloat=\count175
-\c@Hpagenote=\count176
+\c@memhycontfloat=\count183
+\c@Hpagenote=\count184
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2016/05/05 v6.83n Hyperref driver for pdfTeX
-\Fld@listcount=\count177
-\c@bookmark@seq@number=\count178
+\Fld@listcount=\count185
+\c@bookmark@seq@number=\count186
 (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
@@ -1119,18 +1141,18 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 \Hy@SectionHShift=\skip189
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
-\Gm@cnth=\count179
-\Gm@cntv=\count180
-\c@Gm@tempcnt=\count181
-\Gm@bindingoffset=\dimen261
-\Gm@wd@mp=\dimen262
-\Gm@odd@mp=\dimen263
-\Gm@even@mp=\dimen264
-\Gm@layoutwidth=\dimen265
-\Gm@layoutheight=\dimen266
-\Gm@layouthoffset=\dimen267
-\Gm@layoutvoffset=\dimen268
-\Gm@dimlist=\toks43
+\Gm@cnth=\count187
+\Gm@cntv=\count188
+\c@Gm@tempcnt=\count189
+\Gm@bindingoffset=\dimen265
+\Gm@wd@mp=\dimen266
+\Gm@odd@mp=\dimen267
+\Gm@even@mp=\dimen268
+\Gm@layoutwidth=\dimen269
+\Gm@layoutheight=\dimen270
+\Gm@layouthoffset=\dimen271
+\Gm@layoutvoffset=\dimen272
+\Gm@dimlist=\toks44
 )
 
 Package geometry Warning: Over-specification in `h'-direction.
@@ -1140,11 +1162,11 @@ Package geometry Warning: Over-specification in `h'-direction.
 Package geometry Warning: Over-specification in `v'-direction.
     `height' (845.04684pt) is ignored.
 
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 44.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 45.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
-LaTeX Font Info:    Try loading font information for T1+phv on input line 44.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 45.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 ) (./thesis.aux (./1_introduction.aux) (./2_based_material.aux) (./3_solution.a
@@ -1168,21 +1190,21 @@ LaTeX Warning: Label `' multiply defined.
 ))
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Info: Redefining \microtypecontext on input line 71.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Info: Redefining \microtypecontext on input line 72.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1210,33 +1232,34 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )) (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count182
-\scratchdimen=\dimen269
-\scratchbox=\box48
-\nofMPsegments=\count183
-\nofMParguments=\count184
-\everyMPshowfont=\toks44
-\MPscratchCnt=\count185
-\MPscratchDim=\dimen270
-\MPnumerator=\count186
-\makeMPintoPDFobject=\count187
-\everyMPtoPDFconversion=\toks45
+\scratchcounter=\count190
+\scratchdimen=\dimen273
+\scratchbox=\box50
+\nofMPsegments=\count191
+\nofMParguments=\count192
+\everyMPshowfont=\toks45
+\MPscratchCnt=\count193
+\MPscratchDim=\dimen274
+\MPnumerator=\count194
+\makeMPintoPDFobject=\count266
+\everyMPtoPDFconversion=\toks46
 ) ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box49
-Package hyperref Info: Link coloring ON on input line 71.
+\c@lstlisting=\count267
+\AtBeginShipoutBox=\box51
+Package hyperref Info: Link coloring ON on input line 72.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count188
+\c@section@level=\count268
 )
 Redoing nameref's sectioning
 Redoing nameref's label
-LaTeX Info: Redefining \nameref on input line 71.
-LaTeX Info: Redefining \ref on input line 71.
-LaTeX Info: Redefining \pageref on input line 71.
-LaTeX Info: Redefining \nameref on input line 71.
+LaTeX Info: Redefining \nameref on input line 72.
+LaTeX Info: Redefining \ref on input line 72.
+LaTeX Info: Redefining \pageref on input line 72.
+LaTeX Info: Redefining \nameref on input line 72.
 (./thesis.out) (./thesis.out)
 \@outlinefile=\write8
 \openout8 = `thesis.out'.
@@ -1286,7 +1309,7 @@ Package microtype Info: Loading generic settings for font family
 
 ]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 121.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 122.
 [3] [4
 
 ] [5] [6
@@ -1347,90 +1370,98 @@ Package pdftex.def Info: ressources/intj_plug.png used on input line 131.
 t x 486.81876pt>
 File: ressources/stand_alone.jpg Graphic file (type jpg)
 <use ressources/stand_alone.jpg>
-Package pdftex.def Info: ressources/stand_alone.jpg used on input line 156.
+Package pdftex.def Info: ressources/stand_alone.jpg used on input line 153.
 (pdftex.def)             Requested size: 341.43309pt x 257.13617pt.
-<ressources/stand_alone_detailed.jpg, id=391, 1292.83pt x 973.6375pt>
+[19 <./ressources/stand_alone.jpg>] <ressources/stand_alone_detailed.jpg, id=39
+8, 1292.83pt x 973.6375pt>
 File: ressources/stand_alone_detailed.jpg Graphic file (type jpg)
 <use ressources/stand_alone_detailed.jpg>
 Package pdftex.def Info: ressources/stand_alone_detailed.jpg used on input line
- 171.
+ 175.
 (pdftex.def)             Requested size: 455.24413pt x 342.84328pt.
-[19 <./ressources/stand_alone.jpg>] [20 <./ressources/stand_alone_detailed.jpg>
-] <ressources/tableview.png, id=408, 702.625pt x 582.175pt>
+[20 <./ressources/stand_alone_detailed.jpg>] <ressources/tableview.png, id=408,
+ 702.625pt x 582.175pt>
 File: ressources/tableview.png Graphic file (type png)
 <use ressources/tableview.png>
-Package pdftex.def Info: ressources/tableview.png used on input line 191.
+Package pdftex.def Info: ressources/tableview.png used on input line 200.
 (pdftex.def)             Requested size: 318.6695pt x 264.04613pt.
 <ressources/treeview.png, id=410, 717.68124pt x 644.4075pt>
 File: ressources/treeview.png Graphic file (type png)
 <use ressources/treeview.png>
-Package pdftex.def Info: ressources/treeview.png used on input line 205.
+Package pdftex.def Info: ressources/treeview.png used on input line 214.
 (pdftex.def)             Requested size: 318.6695pt x 286.13605pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21 <./ressources/tableview.png>] <ressources/ruledis.png, id=427, 635.37375pt 
-x 294.09875pt>
+[21 <./ressources/tableview.png>] [22 <./ressources/treeview.png>] <ressources/
+ruledis.png, id=429, 635.37375pt x 294.09875pt>
 File: ressources/ruledis.png Graphic file (type png)
 <use ressources/ruledis.png>
-Package pdftex.def Info: ressources/ruledis.png used on input line 221.
+Package pdftex.def Info: ressources/ruledis.png used on input line 236.
 (pdftex.def)             Requested size: 455.24413pt x 210.72775pt.
+[23 <./ressources/ruledis.png>]) [24]
+\openout2 = `4_implementation.aux'.
+
+(./4_implementation.tex [25
+
+
+
+] <ressources/model-grammar.png, id=455, 842.14626pt x 396.48125pt>
+File: ressources/model-grammar.png Graphic file (type png)
+<use ressources/model-grammar.png>
+Package pdftex.def Info: ressources/model-grammar.png used on input line 88.
+(pdftex.def)             Requested size: 455.24413pt x 214.33263pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[22 <./ressources/treeview.png>]) [23 <./ressources/ruledis.png>]
-\openout2 = `4_implementation.aux'.
 
-(./4_implementation.tex [24
+Overfull \hbox (3.10727pt too wide) in paragraph at lines 103--104
+[][][][][][][][][][][][] 
+ []
 
-
-
-] [25] [26] [27]) [28]
+[26] [27 <./ressources/model-grammar.png>] [28]) [29]
 \openout2 = `5_validation.aux'.
 
-(./5_validation.tex [29
+(./5_validation.tex [30
 
 
 
-] [30] <ressources/prof_javag.png, id=489, 347.2975pt x 326.21875pt>
+] <ressources/prof_javag.png, id=496, 347.2975pt x 326.21875pt>
 File: ressources/prof_javag.png Graphic file (type png)
 <use ressources/prof_javag.png>
-Package pdftex.def Info: ressources/prof_javag.png used on input line 70.
+Package pdftex.def Info: ressources/prof_javag.png used on input line 24.
 (pdftex.def)             Requested size: 364.19669pt x 342.10672pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<ressources/prof_ggram.png, id=490, 373.395pt x 329.23pt>
+<ressources/prof_ggram.png, id=497, 373.395pt x 329.23pt>
 File: ressources/prof_ggram.png Graphic file (type png)
 <use ressources/prof_ggram.png>
-Package pdftex.def Info: ressources/prof_ggram.png used on input line 77.
+Package pdftex.def Info: ressources/prof_ggram.png used on input line 31.
 (pdftex.def)             Requested size: 364.19669pt x 321.13107pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<ressources/prof_debug.png, id=492, 679.53876pt x 333.245pt>
+<ressources/prof_debug.png, id=499, 679.53876pt x 333.245pt>
 File: ressources/prof_debug.png Graphic file (type png)
 <use ressources/prof_debug.png>
-Package pdftex.def Info: ressources/prof_debug.png used on input line 90.
+Package pdftex.def Info: ressources/prof_debug.png used on input line 44.
 (pdftex.def)             Requested size: 364.19669pt x 178.60211pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[31
-
-] <ressources/memory_ggrammar.png, id=505, 1007.765pt x 329.23pt>
+[31] <ressources/memory_ggrammar.png, id=512, 1007.765pt x 329.23pt>
 File: ressources/memory_ggrammar.png Graphic file (type png)
 <use ressources/memory_ggrammar.png>
-Package pdftex.def Info: ressources/memory_ggrammar.png used on input line 113.
-
+Package pdftex.def Info: ressources/memory_ggrammar.png used on input line 67.
 (pdftex.def)             Requested size: 455.24413pt x 148.72482pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<ressources/memory_debug.png, id=506, 1010.77625pt x 361.35pt>
+<ressources/memory_debug.png, id=513, 1010.77625pt x 361.35pt>
 File: ressources/memory_debug.png Graphic file (type png)
 <use ressources/memory_debug.png>
-Package pdftex.def Info: ressources/memory_debug.png used on input line 119.
+Package pdftex.def Info: ressources/memory_debug.png used on input line 73.
 (pdftex.def)             Requested size: 455.24413pt x 162.74936pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1441,11 +1472,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [32 <./ressources/prof_javag.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[33 <./ressources/prof_ggram.png> <./ressources/prof_debug.png>]) [34 <./ressou
-rces/memory_ggrammar.png> <./ressources/memory_debug.png>]
+[33 <./ressources/prof_ggram.png> <./ressources/prof_debug.png>] [34 <./ressour
+ces/memory_ggrammar.png> <./ressources/memory_debug.png>] [35
+
+]) [36]
 \openout2 = `6_research.aux'.
 
-(./6_research.tex [35
+(./6_research.tex [37
 
 
 
@@ -1454,7 +1487,7 @@ rces/memory_ggrammar.png> <./ressources/memory_debug.png>]
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\@ifnextchar' on input line 98.
 
-<ressources/ohm.png, id=535, 1434.35875pt x 676.5275pt>
+<ressources/ohm.png, id=553, 1434.35875pt x 676.5275pt>
 File: ressources/ohm.png Graphic file (type png)
 <use ressources/ohm.png>
 Package pdftex.def Info: ressources/ohm.png used on input line 267.
@@ -1462,7 +1495,7 @@ Package pdftex.def Info: ressources/ohm.png used on input line 267.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[36] [37 <./ressources/ohm.png>]) [38]
+[38] [39 <./ressources/ohm.png>]) [40]
 \openout2 = `x_bibliography.aux'.
 
 (./x_bibliography.tex
@@ -1503,7 +1536,7 @@ Underfull \hbox (badness 5446) in paragraph at lines 46--48
 vin . gitbooks . io / tornadofx-[]guide / content / 1 .
  []
 
-[39
+[41
 
 
 
@@ -1555,31 +1588,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 64--66
 tml ? gclid =
  []
 
-) [40]
+) [42]
 \tf@toc=\write9
 \openout9 = `thesis.toc'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 186.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 186.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 187.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 187.
 (./thesis.aux (./1_introduction.aux) (./2_based_material.aux) (./3_solution.aux
 ) (./4_implementation.aux) (./5_validation.aux) (./6_research.aux) (./x_bibliog
 raphy.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 186.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 186.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 187.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 187.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: AFCEE2992D85488B28E6E57555EE83DE;3855.
+(rerunfilecheck)             Checksum: 97FDF8D6CD46E397DE2F8B4D8E16745C;3854.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 21697 strings out of 493014
- 378468 string characters out of 6133351
- 520206 words of memory out of 5000000
- 24504 multiletter control sequences out of 15000+600000
- 65666 words of font info for 184 fonts, out of 8000000 for 9000
+ 23305 strings out of 493014
+ 399739 string characters out of 6133351
+ 544655 words of memory out of 5000000
+ 26091 multiletter control sequences out of 15000+600000
+ 66116 words of font info for 188 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 59i,12n,73p,1476b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,12n,73p,1476b,1210s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
@@ -1590,10 +1623,10 @@ xmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dis
 t/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on thesis.pdf (40 pages, 1554635 bytes).
+Output written on thesis.pdf (42 pages, 1628530 bytes).
 PDF statistics:
- 660 PDF objects out of 1000 (max. 8388607)
- 581 compressed objects within 6 object streams
- 159 named destinations out of 1000 (max. 500000)
- 30713 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 676 PDF objects out of 1000 (max. 8388607)
+ 593 compressed objects within 6 object streams
+ 161 named destinations out of 1000 (max. 500000)
+ 30718 words of extra memory for PDF output out of 35830 (max. 10000000)
 

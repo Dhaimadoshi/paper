@@ -1,6 +1,7 @@
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %
 \chapter{Implementation}
+\label{chap:impl}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	This chapter will present the practical implementation of the solution.
@@ -13,8 +14,6 @@
 \section{The debuging tool implementation}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	
-	First, I'd like to specify that autum = lib and we didnt want ocupling
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\subsection{Overview of the structure}
@@ -48,14 +47,23 @@
 \end{itemize}
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	\subsection{Hooking into the parsers implementation}
+	\subsection{Hooking into the parser implementation}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	To inject the debuging logic, we created a hook in Autumn's parsers implementation. Originally, the parsers were implemented in a strictly functionnal fashion. Autumn define a parser simply as a boolean function taking some input, optionally modifying the parse state and returning a boolean indicating the success or failure of the parser. To implement our hook, we transformed the parsers into objects. To do so, we simply wrapped the original implementation inside of objects in such a way that each parsers could inherrit from a main parser interface. When invoked, the interface calls the hook to start the debug logic.
+	The debuging logic presented in the previous chapter has been implemented through the creation of a hook inside the parsers. During a debuging session, each parser invocation will instead call the debug function that will handle the debugging logic.
 
-	\paragraph{}
+	\bigskip
 
-	Such simple implementation was qualified ``naive'' because we suspected that it would cause some performances issues due to constant creation of new objects during the parse, this issue was referred to as megamorphic call sites. Interestingly, benchmark has proven that both implementation ran in a similar time, thus eliminating the need to change the implementation further.
+	Originally, the parsers were implemented in a strictly functionnal fashion. Autumn defines a parser simply as a boolean function taking some input, optionally modifying the parse state, advancing the input position and finally returning a boolean indicating the success or failure of its execution. 
+
+	\bigskip
+
+	To implement our hook, we changed the parsers from a functional implementation to an object oriented implemention by simply wrapping the parsers function inside objects.
+	A general parser interface has been created to serve as an entry point for our hook.
+
+	\bigskip
+
+	We called this new implementation ``naive parsers'' because we suspected that it would cause some performances issues due to constant creation of new objects during the parse, this issue was referred to as megamorphic call sites. Interestingly, after comparing the benchmark, it has been shown that the impact on the execution time wasn't significant. The results of these benchmark is discussed in chapter \ref{chap:bench}
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 %
@@ -63,19 +71,65 @@
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
-	The decision of rewritting the parsers implied that we had to rewrite the grammar to reflect those changes as well. As discussed before, writing grammar without proper debugging tools can be a time consuming, error prone business. Moreover, to investigate the suspected performances issues related to megamorphic call site, we wanted to make sure that we could recreate this new grammar in such a way that we could effectively compare its performances with the previous implementation.
+	The changes made to the parsers had the consequence that we had to rewrite the grammar to reflect those modifications. As discussed before, writing grammar without proper debugging tools can be a time consuming and error prone business. Moreover, to investigate the suspected performances issues related to the megamorphic call sites, we wanted to make sure that we could recreate this new grammar in such a way that we could effectively compare its performances with the previous implementation.
 
-	\paragraph{}
+	\bigskip
 
-	To do so, we created a \textbf{object graph model} representing the grammar. This model would be used to generate actual grammars using a model compiler. The first challenge was to regenerate the exact same java grammar we had before based on the model. The reason for this step was to ensure the correctness of the model, if we can regenerate the grammar from the model, then we can be sure that another grammar generate from the same model will be correct as well.
+	To do so, we created an \textbf{object graph model} representing the grammar. This model would be used to generate actual grammars using a model compiler. The first challenge was to regenerate the exact same java grammar we had before based on the model. The reason for this step was to ensure the correctness of the model, if we can regenerate the grammar from the model, then we can be sure that another grammar generate from the same model will be correct as well.
 
-	The second compiler, baptise ``graph model compiler'' aimed to generate a java grammar based on the object implementation of the parsers. Then, both grammar was tested on a consequential java corpus. It appeared that the performances of both implementation was really similar, and therefore, the creation of many objects didn't impact the time complexity of the algorithm.
+	The second compiler, baptise ``graph model compiler'' aimed to generate a java grammar based on the object oriented implementation of the parsers. It's name comes from the fact that the grammar generated is represented by a graph of connected objects. Figure \ref{fig:model-grammar} illustrate the relationship between model, model compiler and grammar.
 
-	The validation section will discuss this in more detail.
+	\bigskip
 
-	\paragraph{}
+	Then, both grammar was tested on a consequential java corpus. It appeared that the performances, although slightly affected by the creation of so many objects wasn't impacted in a significant way. The results will be discussed more deeply in the chapter \ref{chap:bench}. 
 
-	Note that another motivation to creating this framework was to simplify the writting of grammar. By not being constrained by inlining notation, the verbosity of the grammar is therefore reduced.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth] {ressources/model-grammar}
+		\caption{Chart illustrating model-grammar generation} 
+		\label{fig:model-grammar}
+	\end{figure}
+
+	% \clearpage
+	\bigskip
+
+	The other motivation we had to create this framework was to simplify the writting of grammar. Autumn grammars are indeed constrained by the inlining notation of the Kotlin language that introduce a less desirable verbosity. The notation for rule definition can be greatly simplified by using this framework as one can see in the following code sample. 
+
+	\begin{tcolorbox}
+	\begin{lstlisting}
+val method_ref_suffix = Build(2,
+   syntax = iden,
+   effect = {MaybeBoundMethodReference(it(0), it(1), 
+   				it(2))}).g.d("method_ref_suffix")
+	\end{lstlisting}
+    \end{tcolorbox}
+    \begin{tcolorbox}
+	\begin{lstlisting}
+val method_ref_suffix
+   = iden
+   .build (2, "MaybeBoundMethodReference(it(0), it(1), it(2))")
+
+	\end{lstlisting}
+    \end{tcolorbox}
+
+	% \begin{tcolorbox}
+	% \begin{verbatim}
+	% val method_ref_suffix = Build(2,
+ %        syntax = iden,
+ %        effect = {MaybeBoundMethodReference(it(0), it(1), it(2))})
+ %        		.g.d("method_ref_suffix")
+
+ %    \end{verbatim}
+ %    \end{tcolorbox}
+ %    \begin{tcolorbox}
+ %    \begin{verbatim}
+ %    val method_ref_suffix
+ %        = iden
+ %        .build (2, "MaybeBoundMethodReference(it(0), it(1), it(2))")
+
+ %    \end{verbatim}
+    % \end{tcolorbox}
+% 
 
 % \begin{itemize}
 % 	\item schemas qui explique la structure model/grammar.
@@ -89,10 +143,12 @@
 	
 	The AST autumn is building during the parse is abstracting some of the nodes together to reduce the size of the tree and make it more readable from a human stand-point. A consequence of this is that we don't have a direct mapping between tree nodes and grammar rules.
 
+	\bigskip
+
 	This is a critical part of the debuging effort. The syntax tree is build by the debuging logic, separately from autumn AST and is only build during in debugging mode.
  	For debugging purposes, backtracking nodes are kept within the tree as well. Backtracking nodes are of course marked as backtracked
 
- 	\paragraph{}
+ 	\bigskip
 
 	The implementation of the syntax tree is contain in the STNode class. It is the structure that holds all the informations needed to debug the grammar.
 
@@ -108,7 +164,7 @@
 
 	One might wonder what happens when a particular parser fail and backtracked over. Nothing happens, we keep this node right inside the tree, because for debugging purposes, it can be interesting to see which node backtracked as a rule could fail to match an input while its intended purpose was to match it.
 
-	\paragraph{}
+	\bigskip
 
 	The syntax tree itself is represented by a chained structure called syntax node, or STNode. Each parser call is represented by an STNode in the tree. It holds information about the parser:
 
@@ -123,13 +179,13 @@
 
 	In the context sensitivity setting, it might be important to be able to display information related to the global parse state. The way autumn recall context is to register it within a mutable parse state. This parse state essentially works as a log whose entries represent mutations applied to this state. Each entry stores the mutation as well as a way to revert it, and later on reapply it. Therefore, it is possible by reccording the size of the log to actually regenerate the parse state corresponding to a specific parser call.
 
-	\paragraph{}
+	\bigskip
 
 	This state represent the context shared between different parsers, as such, when one parser backtracked, the mutations it applied to the parse state are reverted and removed from the log. Therefore, to be able to regenerate the parse state for backtracked parsers, we need to adapt our implementation a bit.
 
-	\paragraph{}
+	\bigskip
 
-	The debug logic is contained in the debugNode class. Any number of additional functionality can be added by creating new hooks to the implementation of the debug function
+	The debug logic is contained in the \textit{debugNode} class. Any number of additional functionality can be added by creating new hooks to the implementation of the debug function
 
 
 % Usually in grammar parsing, the framework usually generate a syntax tree and let the user generate an AST derived from it. One of Autumn's specificity was that it didnt produce a Syntax tree and directly produced a AST. The problem with this approach on the debugger side is that we want to be able to see exactly which rule matched with the input and to do se we need the nodes from the tree to be in a direct mapping with the rules of the grammar.

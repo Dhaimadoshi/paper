@@ -162,6 +162,12 @@ INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
@@ -332,6 +338,9 @@ INPUT ./ressources/ruledis.png
 OUTPUT 4_implementation.aux
 INPUT 4_implementation.tex
 INPUT 4_implementation.tex
+INPUT ressources/model-grammar.png
+INPUT ./ressources/model-grammar.png
+INPUT ./ressources/model-grammar.png
 OUTPUT 5_validation.aux
 INPUT 5_validation.tex
 INPUT 5_validation.tex

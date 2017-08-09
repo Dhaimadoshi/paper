@@ -26,64 +26,54 @@
 \contentsline {paragraph}{Syntax tree}{17}{section*.9}
 \contentsline {paragraph}{Gathering relevant information}{18}{section*.10}
 \contentsline {section}{\numberline {3.3}Intellij plugin}{18}{section.3.3}
-\contentsline {paragraph}{}{19}{section*.11}
 \contentsline {subsection}{\numberline {3.3.1}Views}{20}{subsection.3.3.1}
-\contentsline {paragraph}{Figure \ref {fig:stand_alone_detailed} presents the different elements of the GUI.}{20}{section*.12}
-\contentsline {paragraph}{Table view - Execution trace}{20}{section*.13}
-\contentsline {paragraph}{}{21}{figure.3.4}
-\contentsline {paragraph}{Context menu - Show rule info}{21}{section*.15}
-\contentsline {paragraph}{Tree view - Syntax tree}{21}{section*.16}
-\contentsline {paragraph}{}{21}{figure.3.5}
-\contentsline {paragraph}{Context menu - Set as root}{21}{section*.18}
-\contentsline {paragraph}{Context menu - Set parent as root}{21}{section*.19}
-\contentsline {paragraph}{Context menu - Reset root}{21}{section*.20}
-\contentsline {paragraph}{Context menu - Analyze entry}{21}{section*.21}
-\contentsline {paragraph}{State information}{22}{section*.22}
-\contentsline {paragraph}{Rule side tab}{22}{section*.23}
-\contentsline {subsection}{\numberline {3.3.2}Filtering the informations}{22}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Jump to code}{23}{subsection.3.3.3}
+\contentsline {paragraph}{Figure \ref {fig:stand_alone_detailed} presents the different elements of the GUI.}{20}{section*.11}
+\contentsline {subsubsection}{Table view - Execution trace}{20}{section*.12}
+\contentsline {paragraph}{Context menu}{21}{section*.13}
+\contentsline {subsubsection}{Tree view - Syntax tree}{21}{section*.14}
+\contentsline {paragraph}{Context menu - Set as root}{22}{section*.15}
+\contentsline {paragraph}{Context menu - Set parent as root}{22}{section*.16}
+\contentsline {paragraph}{Context menu - Reset root}{22}{section*.17}
+\contentsline {paragraph}{Context menu - Analyze entry}{22}{section*.18}
+\contentsline {subsubsection}{State information}{23}{section*.19}
+\contentsline {subsubsection}{Rule side tab}{23}{section*.20}
+\contentsline {subsection}{\numberline {3.3.2}Filtering the informations}{23}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Jump to code}{24}{subsection.3.3.3}
 \contentsline {chapter}{\chapternumberline {4}Implementation}{25}{chapter.4}
 \contentsline {section}{\numberline {4.1}The debuging tool implementation}{25}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Overview of the structure}{25}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Hooking into the parsers implementation}{26}{subsection.4.1.2}
-\contentsline {paragraph}{}{26}{section*.24}
+\contentsline {subsection}{\numberline {4.1.2}Hooking into the parser implementation}{25}{subsection.4.1.2}
 \contentsline {subsection}{\numberline {4.1.3}Rewritting the grammar, the notion of model and model Compiler}{26}{subsection.4.1.3}
-\contentsline {paragraph}{}{26}{section*.25}
-\contentsline {paragraph}{}{26}{section*.26}
-\contentsline {subsection}{\numberline {4.1.4}Syntax Tree generation}{26}{subsection.4.1.4}
-\contentsline {paragraph}{}{27}{section*.27}
-\contentsline {subsection}{\numberline {4.1.5}Debug logic and syntax nodes}{27}{subsection.4.1.5}
-\contentsline {paragraph}{}{27}{section*.28}
-\contentsline {paragraph}{}{27}{section*.29}
-\contentsline {paragraph}{}{27}{section*.30}
+\contentsline {subsection}{\numberline {4.1.4}Syntax Tree generation}{27}{subsection.4.1.4}
+\contentsline {subsection}{\numberline {4.1.5}Debug logic and syntax nodes}{28}{subsection.4.1.5}
 \contentsline {section}{\numberline {4.2}Plugin Implementation}{28}{section.4.2}
-\contentsline {paragraph}{}{28}{section*.31}
-\contentsline {subsubsection}{TornadoFX framework - reasons why we used tornadofx}{28}{section*.32}
-\contentsline {subsection}{\numberline {4.2.1}Event Handler \& Message passing}{28}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Limitations}{28}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}execution thread}{28}{subsection.4.2.3}
-\contentsline {chapter}{\chapternumberline {5}Future work}{29}{chapter.5}
-\contentsline {section}{\numberline {5.1}Debugger extension}{29}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Adding hooks}{29}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Turning the plugin into a full fledge independent software}{29}{subsection.5.1.2}
-\contentsline {subsection}{\numberline {5.1.3}Working in tandem with the general purpose debugger}{29}{subsection.5.1.3}
-\contentsline {section}{\numberline {5.2}Autumn related}{29}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Parser implementation}{29}{subsection.5.2.1}
-\contentsline {section}{\numberline {5.3}GUI extentions}{29}{section.5.3}
-\contentsline {paragraph}{}{29}{section*.33}
-\contentsline {chapter}{\chapternumberline {6}validation}{31}{chapter.6}
-\contentsline {section}{\numberline {6.1}Benchmarking}{31}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Profiling excution time}{31}{subsection.6.1.1}
-\contentsline {subsection}{\numberline {6.1.2}Profiling memory consumption}{31}{subsection.6.1.2}
-\contentsline {section}{\numberline {6.2}Debugger in practice}{33}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Examples}{33}{subsection.6.2.1}
-\contentsline {paragraph}{case study 1 : error in grammar}{33}{section*.34}
-\contentsline {paragraph}{case study 2 : error in input}{34}{section*.35}
-\contentsline {paragraph}{case study 3 : error in parser definition}{34}{section*.36}
-\contentsline {chapter}{\chapternumberline {7}Related work - state of the art}{35}{chapter.7}
-\contentsline {section}{\numberline {7.1}The Moldable Debugger: a Framework for Developing Domain-Specific Debuggers}{35}{section.7.1}
-\contentsline {section}{\numberline {7.2}Antlr \cite {antlr}}{36}{section.7.2}
-\contentsline {section}{\numberline {7.3}Ohm}{36}{section.7.3}
-\contentsline {section}{\numberline {7.4}Debugger Canvas: Industrial Experience with the Code Bubbles Paradigm}{37}{section.7.4}
-\contentsline {section}{\numberline {7.5}Grammar-Driven Generation of Domain-Specific Language Debuggers}{37}{section.7.5}
-\contentsline {chapter}{Bibliography}{39}{section*.38}
+\contentsline {paragraph}{}{29}{section*.21}
+\contentsline {subsubsection}{TornadoFX framework - reasons why we used tornadofx}{29}{section*.22}
+\contentsline {subsection}{\numberline {4.2.1}Event Handler \& Message passing}{29}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Limitations}{29}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}execution thread}{29}{subsection.4.2.3}
+\contentsline {chapter}{\chapternumberline {5}validation}{31}{chapter.5}
+\contentsline {section}{\numberline {5.1}Benchmarking}{31}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Profiling excution time}{31}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Profiling memory consumption}{31}{subsection.5.1.2}
+\contentsline {section}{\numberline {5.2}Debugger in practice}{33}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Examples}{33}{subsection.5.2.1}
+\contentsline {paragraph}{case study 1 : error in grammar}{33}{section*.23}
+\contentsline {paragraph}{case study 2 : error in input}{34}{section*.24}
+\contentsline {paragraph}{case study 3 : error in parser definition}{34}{section*.25}
+\contentsline {chapter}{\chapternumberline {6}Future work}{35}{chapter.6}
+\contentsline {section}{\numberline {6.1}Debugger extension}{35}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Adding hooks}{35}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Turning the plugin into a full fledge independent software}{35}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Working in tandem with the general purpose debugger}{35}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}Autumn related}{35}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Parser implementation}{35}{subsection.6.2.1}
+\contentsline {section}{\numberline {6.3}GUI extentions}{35}{section.6.3}
+\contentsline {paragraph}{}{35}{section*.26}
+\contentsline {chapter}{\chapternumberline {7}Related work - state of the art}{37}{chapter.7}
+\contentsline {section}{\numberline {7.1}The Moldable Debugger: a Framework for Developing Domain-Specific Debuggers}{37}{section.7.1}
+\contentsline {section}{\numberline {7.2}Antlr \cite {antlr}}{38}{section.7.2}
+\contentsline {section}{\numberline {7.3}Ohm}{38}{section.7.3}
+\contentsline {section}{\numberline {7.4}Debugger Canvas: Industrial Experience with the Code Bubbles Paradigm}{39}{section.7.4}
+\contentsline {section}{\numberline {7.5}Grammar-Driven Generation of Domain-Specific Language Debuggers}{39}{section.7.5}
+\contentsline {chapter}{Bibliography}{41}{section*.28}

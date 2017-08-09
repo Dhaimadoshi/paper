@@ -3,7 +3,7 @@
 \chapter{Overview of the solution}
 %
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-This chapter presents the main functionality of the debugging tool in all generalities and presents how it has been integrated with Intellij IDE as a GUI plugin.
+This chapter presents the main functionality of the debugging tool in all generalities and presents how it has been integrated with Intellij IDE as a GUI plugin. At this point I'd like to remind the reader that our solution is not a \textit{debuger} in the traditional meaning of the word. Dispite this fact, we will refer to it as a debuger for simplicity. 
 
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 \section{Overview}
@@ -141,15 +141,12 @@ Our alternate solution to traditional debugging is build on this idea, building 
 
 	\bigskip
 
-	It can also be argued that this information as is wouldn't be very useful to the developper as it is quiet a dump of information. When trying to debug a grammar, most of the time we are interested in the behavior of a restricted number of rules that we suspect are carrier of mistakes. In traditional debugging, this is done by setting a serie of breakpoints and executing the code. Once the breakpoint occurs, the programmer will generally single step through the code instructions by instructions. In this domain, it is rarely useful to single step through each instructions as you are more interested in the behavior of the rules as a whole rather than the sum of each of its parts.
+	It can also be argued that this information as is wouldn't be very useful to the developper as it is quiet a dump of information. When trying to debug a grammar, most of the time we are interested in the behavior of a restricted number of rules that we suspect are carrier of mistakes. In traditional debugging, this is done by setting a serie of breakpoints and executing the code. Once the breakpoint occurs, the programmer will generally single step through the code instructions by instructions. %In this domain, it is rarely useful to single step through each instructions as you are more interested in the behavior of the rules as a whole rather than the sum of each of its parts.
+	We achieve this by introcing a serie of filters and search field. By filtering the information, one can really easily isolate the execution of a parser or rule he is interested to verify the correctness and behavior. From there he can easily navigate the tree up and down to see how the grammar parsed the input around those particular parsers and reason about them.
 
 	\bigskip
 
-	By implementing a serie of filters and search field, one can really easily find the execution of the parser or rule he is interested, from there he can easily navigate the tree up and down to see how the grammar parsed the input around those particular parsers. 
-
-	\paragraph{}
-
-	Note that the plugin can also run as a stand alone application as shown on figure \ref{fig:stand_alone}, albeit some of the functionnalities (those that are tightly coupled to the IDE, like jumping to the rule definition) are disabled. The usefulness of such feature can be critized, but the feature is there and could serve as a starting point to develop a full fledged debugging environment for autumn grammars that are independent from the IDE. 
+	Note that the plugin can also run as a stand alone application as shown on figure \ref{fig:stand_alone}, albeit some disabled functionnalities (those that are tightly coupled to the IDE, like jumping to the rule definition). The usefulness of such feature can be discussed, it could possibly serve as a starting point to develop a full fledged independent debugging environment for autumn grammars. 
 
 	\begin{figure}[H]
 		\centering
@@ -158,89 +155,118 @@ Our alternate solution to traditional debugging is build on this idea, building 
 		\label{fig:stand_alone}
 	\end{figure}
 
-
-
-
-
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 	\subsection{Views}
 %%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-	Let's describe the content of the different views in a little more details.
+	This section describe the content of the different views in a little more details.
 
-		\begin{figure}[h]
-			\includegraphics[width=1\textwidth] {ressources/stand_alone_detailed}
-			\caption{Close up view of the plugin in detail} 
-			\label{fig:stand_alone_detailed}
-		\end{figure}
+	\bigskip
 
-		\paragraph{Figure \ref{fig:stand_alone_detailed} presents the different elements of the GUI.}
-		\begin{itemize}
-			\item 1. Debug button, used to start the debugging process
-			\item 2. Filters buttons, used to apply filters to the displayed data
-			\item 3. Search field, used to filter the parsers by name
-			\item 4. Main information display, 3 tabs are available : Table view, Tree view and finally state view
-			\item 5. Side tab panel, used to switch from the main view to the rule view.
-		\end{itemize}
+	\paragraph{Figure \ref{fig:stand_alone_detailed} presents the different elements of the GUI.}
+	\begin{itemize}
+		\item 1. Debug button, used to start the debugging process
+		\item 2. Filters buttons, used to apply filters to the displayed data
+		\item 3. Search field, used to filter the parsers by name
+		\item 4. Main information display, 3 tabs are available : Table view, Tree view and finally state view
+		\item 5. Side tab panel, used to switch from the main view to the rule view.
+	\end{itemize}
 
-		\paragraph{Table view - Execution trace} The table view highlight the execution sequence of the parsers. It is a list countaining the parser calls in chronological order. This view can be considered redundant with the tree view which offer the same information but displayed in a tree fashion. Dispite it's redundancy, it shouldn't be dismissed too eagerly, in a tree view, the potentially high nesting of each nodes can create situation where two chronological consecutive parser calls happen in two very different nesting level making the structure harder to read when one focus on the chronological property of events. This is the reason why we considered this view to be important as well, an example of this view displaying information of a trivial parse can be seen on figure \ref{fig:tableview}
+	\begin{figure}[t]
+		\includegraphics[width=1\textwidth] {ressources/stand_alone_detailed}
+		\caption{Close up view of the plugin in detail} 
+		\label{fig:stand_alone_detailed}
+	\end{figure}
 
-		\paragraph{}
+	\subsubsection{Table view - Execution trace} An example of the table view displaying information of a small parse example can be seen on figure \ref{fig:tableview}. As discussed before, the table representation of information allow for clearer display of the sequence of parser calls, it countains the parser calls in chronological order.
 
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=.7\textwidth] {ressources/tableview}
-			\caption{Table view: Chronological parser call on a trivial parse example} 
-			\label{fig:tableview}
-		\end{figure}
+	\bigskip
 
-		\paragraph{Context menu - Show rule info}
-
-
-		\paragraph{Tree view - Syntax tree} The tree view displays the data in a tree like structure. It highlights the hierarchy between parsers making it obviously easy to trace where the call comes from. An example of this view can be seen on figure \ref{fig:treeview} for a trivial parse example.
-		
-		\paragraph{}
-
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=.7\textwidth] {ressources/treeview}
-			\caption{} 
-			\label{fig:treeview}
-		\end{figure}
-
-		\paragraph{Context menu - Set as root}
-		\paragraph{Context menu - Set parent as root}
-		\paragraph{Context menu - Reset root}
-		\paragraph{Context menu - Analyze entry}
-
-		\paragraph{State information} The last tab of the main view's purpose is to display the parse state associated to the parser currently inspected. In the current implementation of Autumn, the parse state is simply used to record the position of the input and the abstract syntax tree built during the parse. Both information are already displayed in the other views, therefore, it doesn't display information for now. This tab remains relevant notherless because users can implement their own structures to store custom parse state providing they respect Autumn's prescription for such structure. Those custom structure could contain relevant information that has not been captured by the other views. The existance of this tab, and a hook that has been implemented in those structure can greatly facilitate the display of such custom information.
+	The table is divided in a serie column:
+	\begin{itemize}
+		\item Column rule lists the name of the production rule that the parse is defining
+		\item Column type lists the actual parser type
+		\item log size represents as its name indicate the size of the log, the number of mutation applied to the parse state so far.
+		\item pos0 represents the position in the input before the parser was invoked while pos indicate the position of the input after the parser was executed.
+		\item finally, backtracked indicates with a boolean property if the parser was successful or if it backtracked. 
+	\end{itemize}
 
 
-		\paragraph{Rule side tab} Finally the side tab displays information about a specific parser we want to anlyze. By double clicking or using the appropriate context menu option in the table or tree view, one can display the definition of the grammar rule as well as the portion of the input that has been matched by the parser. Figure \ref{fig:ruledis} shows an example of that.
+	% The table view highlight the execution sequence of the parsers. It is a list  This view can be considered redundant with the tree view which offer the same information but displayed in a tree fashion. Dispite it's redundancy, it shouldn't be dismissed too eagerly, in a tree view, the potentially high nesting of each nodes can create situation where two chronological consecutive parser calls happen in two very different nesting level making the structure harder to read when one focus on the chronological property of events. This is the reason why we considered this view to be important as well, 
 
-		\begin{figure}[h]
-			\includegraphics[width=1\textwidth] {ressources/ruledis}
-			\caption{Example of grammar rule information and matched input for a particular parser} 
-			\label{fig:ruledis}
-		\end{figure}
+	\bigskip
 
-		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-		\subsection{Filtering the informations}
-		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.7\textwidth] {ressources/tableview}
+		\caption{Table view: Chronological parser call on a trivial parse example} 
+		\label{fig:tableview}
+	\end{figure}
 
-		\begin{itemize}
-			\item all this information is overwhelming and not very useful (like a dump of info)
-			\item filter allow to select the relevant informations the user might be reasoning with
-			\item filter possibilities
-			\item unamed: unamed parser which doesn't match the rule one to one 
-			\item backtracked
-			\item no match : nodes that didn't match anything in the input but succeded
-		\end{itemize}
+	\paragraph{Context menu} In this view there is a single context menu called ``show rule info''. When clicked, it displays the complete definition of the grammar rule as well as highlighting the portion of the input that was matched during the parse.  
 
-		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
-		\subsection{Jump to code}
-		%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
 
-		% Because we don't stop the execution with breakpoints, the user will get the entire execution trace and all the related information with it at once. This can be a little bit overwhelming and therefore defeat the purpose of the debugger. To facilitate the navigation of thoses information we create filtering tools. The user can decide what to display at anytime. The different filters fill in different roles. It is possible to filter the unamed parser which doesn't match the rule one to one to get a ``higher'' level view of the parsing. One can filter out the node that backtracked to see exactly how the input has been matched. Because of the nature of certain parsers, there will be nodes that didn't match anything in the input but succeded anyway and therefore didn't backtracked, those nodes are filterable as well. And finally, because the user might be interested only in the matching of a particular rule or parser, there is a search field in which we can input the name of the parser of interest to filter everything else out.
+	\subsubsection{Tree view - Syntax tree} The tree view displays the data as a tree like structure. It highlights the hierarchy between parsers making it obviously easy to trace where the invocation call came from. When first generated, the structure opens two level of nesting by default. The children of a particular node can be displayed by double clicking on it, as a side effects, the column gets resized to accomodate the new nesting level. An example of this view can be seen on figure \ref{fig:treeview} for a simple parse example.
+	
+	\bigskip
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.7\textwidth] {ressources/treeview}
+		\caption{} 
+		\label{fig:treeview}
+	\end{figure}
+
+	The context menu for this view is a little bit more complex and contains four different actions.
+	\paragraph{Context menu - Set as root} Because of the reccursive nature of the parse tree, high level of nesting can quickly disrupt the clarity of the display. This option does exactly what it suggest it does, it sets the selected rule as the root of the tree, displaying only its children. It is useful when analyzing the parse of a particular rule deep inside the tree to isolate it from the rest of its siblings. The resulting view is a subset of the original tree, improving the clarity of the display by focusing on the elements one is reasoning about.
+
+	\paragraph{Context menu - Set parent as root} This option works similarily to the previous one, it take the parent of the root and sets it as the new root. This is useful when one is tracking an error, one analyzes the parse of one rule, and after making sure of its correctness, one might go one step back and analyze the parse of it's parent.
+
+	\paragraph{Context menu - Reset root} Finally, at any point, one might want to display the entire tree again. This option reset the root to the starting expression.
+
+	\paragraph{Context menu - Analyze entry} The last context menu option is used to display the definition of the rule and highlight the matched input. 
+
+	\subsubsection{State information} The last tab of the main view's purpose is to display the parse state associated to the parser currently inspected. In the current implementation of Autumn, the parse state is simply used to record the position of the input and the abstract syntax tree built during the parse. Both information are already displayed in the other views, therefore, it doesn't display information for now. This tab remains relevant notherless because users can implement their own structures to store custom parse state providing they respect Autumn's prescription for such structure. Those custom structure could contain relevant information that has not been captured by the other views. The existance of this tab, and a hook that has been implemented in those structure can greatly facilitate the display of such custom information.
+
+	\subsubsection{Rule side tab} 
+
+	The last section of the plugin we didn't discuss yet is the side tab displays. When one is analyzing a parser using the context menu of the other views, this panel's information is populated with the rule definition of the parser and the portion of input matched by it. Figure \ref{fig:ruledis} shows an example of that.
+	The top part of the panel, above the line, is the definition of the production rule linked to the parser. Below the line is the portion of the input matched by the parser.
+
+	\begin{figure}[h]
+		\includegraphics[width=1\textwidth] {ressources/ruledis}
+		\caption{Example of grammar rule information and matched input for a particular parser} 
+		\label{fig:ruledis}
+	\end{figure}
+
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Filtering the informations}
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	As we hinted before, the fact that the system display all the information at once can be quite overwhelming and difficult to use in practice. That is without considering the different filters that helps narrowing down the information to exactly the one we need to detect mistakes in our grammar.
+
+	\bigskip
+
+	The different filters buttons can be observed on the number 2 highlight on figure \ref{fig:stand_alone_detailed}.
+
+	\begin{itemize}
+		\item ``Filter no match'', due to the nature of parser definition borrowed from the PEG formalism, certain parsers can potentially return successfully although they didn't advance the parse in any ways. An example would be the ``repeat0'' parser which return successfully uppon matching 0 or more times the content of its body. Such parser might get in the way of clarity when we analyze how the parse actually matched the input. These parser can be identified by the fact that the position before and after their invocation is the same. For this reason we can filter them out using this button. 
+		\item ``Filter backtracked'', due to context sensitivity, some parsers might match the input partially and then backtracked upon failure. Similarily to successful parsers that didn't match the input, depending on the situation, those entries can get in the way of understanding how the input was matched. It is although obviously important to keep those parsers around within the syntax tree to debug our solution. A particular rule we wrote could backtrack unexpectedly, we therefore might want to analyze why it failed to match the input.
+		\item ``All nodes'', as its name indicate, this radio button displays all the nodes without filtering them based on their name or type.
+		\item ``Named rule'', this radio button filter the tree to leave only the parsers that are the begining of a rule definition. Filtering named parsers is particularly useful as each nodes of the tree now match directly with the rules of the grammar, making it really easy to understand how the parse matched the input file.
+		\item ``Filtered'', Finally, this radio button works together with the search field marked as the number 3 on figure \ref{fig:stand_alone_detailed}. One can type rule names or parser type name in the search field to filter out from the tree all the parsers that doesn't match this definition. Switching to this radio button simply filter the tree with whatever's in the search field. Intrinsicly, this radio button doesn't do much except indicating that the display is driven by the search field, which overides the other name based filters. 
+	\end{itemize}
+
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+	\subsection{Jump to code}
+	%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%---%%%
+
+	A really interesting feature for our plugin is the ability to jump directly in the code for the definition of the grammar rule and/or the input file. Our implementation doesn't allow us to do it in a neat way. Right now, we achieve this feature by selecting one rule from the table or tree view, then going to the ``tool'' menu and selection ``jump to rule definition''. Alternatively, there is a keyboard shortcut to do this : command-alt-A then C.
+
+	The reason for this will be discussed in the chapter \ref{chap:impl}.
+
+
+	% However, our implementation doesn't allow for this feature to be easily accessible. The problem lies in the way Intellij accepts 
+
+	% Through another menu, we are able open the file and move the caret to highlight the relevant information.
 
 
 		%PetitParser is a framework for creating parsers, written in Pharo, that makes it easy to dynamically reuse, compose, transform and extend grammars [28]. A parser is created by specifying a set of grammar productions in one or more dedicated classes. When a parser is instantiated the grammar productions are used to create a tree of primitive parsers (e.g., choice, sequence, negation, etc.); this tree is then used to parse the input. Whereas most parser generators instantiate a parser by generating code, PetitParser generates a dynamic graph of objects. Nevertheless, the same issues arise as with conventional parser generators: generic debuggers do not provide debugging operations at the level of the input (e.g., set a breakpoint when a certain part of the input is parsed) and of the grammar (e.g., set a breakpoint when a grammar production is exercised). Generic debuggers also do not display the source code of grammar productions nor do they provide easy access to the input being parsed.

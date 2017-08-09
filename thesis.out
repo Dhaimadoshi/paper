@@ -23,7 +23,7 @@
 \BOOKMARK [0][-]{chapter.4}{Implementation}{}% 23
 \BOOKMARK [1][-]{section.4.1}{The debuging tool implementation}{chapter.4}% 24
 \BOOKMARK [2][-]{subsection.4.1.1}{Overview of the structure}{section.4.1}% 25
-\BOOKMARK [2][-]{subsection.4.1.2}{Hooking into the parsers implementation}{section.4.1}% 26
+\BOOKMARK [2][-]{subsection.4.1.2}{Hooking into the parser implementation}{section.4.1}% 26
 \BOOKMARK [2][-]{subsection.4.1.3}{Rewritting the grammar, the notion of model and model Compiler}{section.4.1}% 27
 \BOOKMARK [2][-]{subsection.4.1.4}{Syntax Tree generation}{section.4.1}% 28
 \BOOKMARK [2][-]{subsection.4.1.5}{Debug logic and syntax nodes}{section.4.1}% 29
@@ -31,24 +31,24 @@
 \BOOKMARK [2][-]{subsection.4.2.1}{Event Handler \046 Message passing}{section.4.2}% 31
 \BOOKMARK [2][-]{subsection.4.2.2}{Limitations}{section.4.2}% 32
 \BOOKMARK [2][-]{subsection.4.2.3}{execution thread}{section.4.2}% 33
-\BOOKMARK [0][-]{chapter.5}{Future work}{}% 34
-\BOOKMARK [1][-]{section.5.1}{Debugger extension}{chapter.5}% 35
-\BOOKMARK [2][-]{subsection.5.1.1}{Adding hooks}{section.5.1}% 36
-\BOOKMARK [2][-]{subsection.5.1.2}{Turning the plugin into a full fledge independent software}{section.5.1}% 37
-\BOOKMARK [2][-]{subsection.5.1.3}{Working in tandem with the general purpose debugger}{section.5.1}% 38
-\BOOKMARK [1][-]{section.5.2}{Autumn related}{chapter.5}% 39
-\BOOKMARK [2][-]{subsection.5.2.1}{Parser implementation}{section.5.2}% 40
-\BOOKMARK [1][-]{section.5.3}{GUI extentions}{chapter.5}% 41
-\BOOKMARK [0][-]{chapter.6}{validation}{}% 42
-\BOOKMARK [1][-]{section.6.1}{Benchmarking}{chapter.6}% 43
-\BOOKMARK [2][-]{subsection.6.1.1}{Profiling excution time}{section.6.1}% 44
-\BOOKMARK [2][-]{subsection.6.1.2}{Profiling memory consumption}{section.6.1}% 45
-\BOOKMARK [1][-]{section.6.2}{Debugger in practice}{chapter.6}% 46
-\BOOKMARK [2][-]{subsection.6.2.1}{Examples}{section.6.2}% 47
+\BOOKMARK [0][-]{chapter.5}{validation}{}% 34
+\BOOKMARK [1][-]{section.5.1}{Benchmarking}{chapter.5}% 35
+\BOOKMARK [2][-]{subsection.5.1.1}{Profiling excution time}{section.5.1}% 36
+\BOOKMARK [2][-]{subsection.5.1.2}{Profiling memory consumption}{section.5.1}% 37
+\BOOKMARK [1][-]{section.5.2}{Debugger in practice}{chapter.5}% 38
+\BOOKMARK [2][-]{subsection.5.2.1}{Examples}{section.5.2}% 39
+\BOOKMARK [0][-]{chapter.6}{Future work}{}% 40
+\BOOKMARK [1][-]{section.6.1}{Debugger extension}{chapter.6}% 41
+\BOOKMARK [2][-]{subsection.6.1.1}{Adding hooks}{section.6.1}% 42
+\BOOKMARK [2][-]{subsection.6.1.2}{Turning the plugin into a full fledge independent software}{section.6.1}% 43
+\BOOKMARK [2][-]{subsection.6.1.3}{Working in tandem with the general purpose debugger}{section.6.1}% 44
+\BOOKMARK [1][-]{section.6.2}{Autumn related}{chapter.6}% 45
+\BOOKMARK [2][-]{subsection.6.2.1}{Parser implementation}{section.6.2}% 46
+\BOOKMARK [1][-]{section.6.3}{GUI extentions}{chapter.6}% 47
 \BOOKMARK [0][-]{chapter.7}{Related work - state of the art}{}% 48
 \BOOKMARK [1][-]{section.7.1}{The Moldable Debugger: a Framework for Developing Domain-Specific Debuggers}{chapter.7}% 49
 \BOOKMARK [1][-]{section.7.2}{Antlr antlr}{chapter.7}% 50
 \BOOKMARK [1][-]{section.7.3}{Ohm}{chapter.7}% 51
 \BOOKMARK [1][-]{section.7.4}{Debugger Canvas: Industrial Experience with the Code Bubbles Paradigm}{chapter.7}% 52
 \BOOKMARK [1][-]{section.7.5}{Grammar-Driven Generation of Domain-Specific Language Debuggers}{chapter.7}% 53
-\BOOKMARK [0][-]{section*.38}{Bibliography}{}% 54
+\BOOKMARK [0][-]{section*.28}{Bibliography}{}% 54
